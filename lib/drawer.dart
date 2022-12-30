@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rasd/additional_info.dart';
+import 'package:rasd/profile_page.dart';
 import 'package:rasd/sign_in.dart';
 import 'package:rasd/signup.dart';
 
@@ -144,7 +145,32 @@ class Navdrawer extends StatelessWidget {
                 // );
               },
             )
-          ]),
+          ]),Row(children: [
+      SizedBox(
+        height: 10,
+        width: 70,
+      ),
+      Icon(
+        Icons.settings_rounded,
+        size: 35,
+        color: Colors.grey,
+      ),
+      SizedBox(
+        width: 15,
+      ),
+      TextButton(
+        child: Text("profile",
+            style: TextStyle(
+                color: Color(0xff274472),
+                fontSize: 21,
+                fontWeight: FontWeight.w700)),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  Profile()),
+          );
+        },
+      )]),
           SizedBox(
             height: 40,
           ),

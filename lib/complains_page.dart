@@ -13,24 +13,28 @@ class ComplainsScreen extends StatefulWidget{
 }
 class _ComplainsScreenState extends State<ComplainsScreen> {
   @override
+  String? dropdownValue = 'Lighting pole';
+  XFile?imageFile;
+
+  final ImagePicker image=ImagePicker();
+  getgal()async{
+    dynamic img=await ImagePicker.platform.getImageFromSource(source:ImageSource.gallery)    ;
+    setState(() {
+      imageFile=img ;
+    });
+  }
   Widget build(BuildContext context) {
     // TODO: implement build
- XFile ?imageFile;
- String? dropdownValue = 'Lighting pole';
+
  int? selectedValue;
  var phonecontroller = TextEditingController();
  var addresscontroller = TextEditingController();
 List<String> items=['Lighting pole','potholes','Building violation'];
-   final ImagePicker image=ImagePicker();
+
     var formkey = GlobalKey<FormState>();
     var scaffoldkey = GlobalKey<ScaffoldState>();
 
-    getgal()async{
-  dynamic img=await ImagePicker.platform.getImageFromSource(source:ImageSource.gallery)    ;
-    setState(() {
-      imageFile=img ;
-    });
-    }
+
    return Scaffold( key: scaffoldkey,
      drawer: Navdrawer(),
      backgroundColor: Colors.white,
@@ -72,7 +76,7 @@ List<String> items=['Lighting pole','potholes','Building violation'];
 if (imageFile==null) IconButton(onPressed:()async{
 getgal();
 
-} ,icon: Icon(Icons.image,size: 150,),iconSize:150,color: Colors.grey,) else Image.file(imageFile as File)
+} ,icon: Icon(Icons.image,size: 150,),iconSize:150,color: Colors.grey,) else Image.file(File(imageFile!.path))
 ,
 SizedBox(height: 10,),
     DropdownButtonFormField(
