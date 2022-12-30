@@ -85,6 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           print(value);
 
                         },
+                        
                         decoration: const InputDecoration(
                             hintStyle: TextStyle(
                                 color: Colors.grey,
