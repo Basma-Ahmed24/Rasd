@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -26,6 +24,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
   var formkey = GlobalKey<FormState>();
   var scaffoldkey = GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
+<<<<<<< HEAD
 
 
 
@@ -38,6 +37,17 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
       imageFile=img ;
     });
   }
+=======
+
+  getgal() async {
+    dynamic img = await ImagePicker.platform
+        .getImageFromSource(source: ImageSource.gallery);
+    setState(() {
+      imageFile = img;
+    });
+  }
+
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
   Widget build(BuildContext context) {
     // TODO: implement build
 
@@ -49,8 +59,13 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
     var formkey = GlobalKey<FormState>();
     var scaffoldkey = GlobalKey<ScaffoldState>();
 
+<<<<<<< HEAD
 
     return Scaffold(key: scaffoldkey,
+=======
+    return Scaffold(
+      key: scaffoldkey,
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
       drawer: Navdrawer(),
       backgroundColor: Colors.white,
 
@@ -86,6 +101,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
                       )),
+<<<<<<< HEAD
 
 
                   if (imageFile == null) IconButton(onPressed: () async {
@@ -97,6 +113,25 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                     Image.file(File(imageFile!.path))
                   ,
                   SizedBox(height: 10,),
+=======
+                  if (imageFile == null)
+                    IconButton(
+                      onPressed: () async {
+                        getgal();
+                      },
+                      icon: Icon(
+                        Icons.image,
+                        size: 150,
+                      ),
+                      iconSize: 150,
+                      color: Colors.grey,
+                    )
+                  else
+                    Image.file(File(imageFile!.path)),
+                  SizedBox(
+                    height: 10,
+                  ),
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
                   DropdownButtonFormField(
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder( //<-- SEE HERE
@@ -207,8 +242,12 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                         print(addresscontroller.text);
                         Navigator.push(
                           context,
+<<<<<<< HEAD
                           MaterialPageRoute(
                               builder: (context) => Profile()),
+=======
+                          MaterialPageRoute(builder: (context) => Profile()),
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
                         );
                       }
                     },
@@ -236,4 +275,9 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
         ),
       ),
     );
+<<<<<<< HEAD
   }}
+=======
+  }
+}
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb

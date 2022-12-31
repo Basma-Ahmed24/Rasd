@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:rasd/complains_page.dart';
+=======
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
 import 'package:rasd/profile_page.dart';
 import 'package:rasd/sign_in.dart';
 import 'package:rasd/signup.dart';
@@ -107,6 +110,7 @@ class Navdrawer extends StatelessWidget {
           ]),
 
 
+<<<<<<< HEAD
           Row(children: [
             SizedBox(
               height: 10,
@@ -160,6 +164,8 @@ class Navdrawer extends StatelessWidget {
               },
             )
           ]),
+=======
+>>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
           Row(children: [
       SizedBox(
         height: 10,
