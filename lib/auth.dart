@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:rasd/additional_info.dart';
+
+import 'package:rasd/complains_page.dart';
 import 'package:rasd/sign_in.dart';
 
 class Auth extends StatelessWidget{
@@ -13,7 +14,7 @@ class Auth extends StatelessWidget{
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: ((context, snapshot){
           if (snapshot.hasData){
-            return AdditionalInfoScreen();
+            return ComplainsScreen();
           } else {
             return SignInScreen();
             }
