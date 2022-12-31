@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rasd/complains_page.dart';
 import 'package:rasd/profile_page.dart';
 import 'package:rasd/sign_in.dart';
 import 'package:rasd/signup.dart';
+import 'package:rasd/view_complains.dart';
 
 class Navdrawer extends StatelessWidget {
   final padding = EdgeInsets.symmetric(horizontal: 20);
@@ -13,20 +15,33 @@ class Navdrawer extends StatelessWidget {
         backgroundColor: Color(0xffFBFBFB),
         child: Column(children: [
           SizedBox(
-            height: 20,
+            height: 50,
           ),
           Row(
             children: [
               SizedBox(
-                height: 30,
+
                 width: 10,
               ),
-              Container(
-                width: 270,
-                height: 200,
-                child: Image.asset("assets/Width-SkyCloud.png"),
-              )
-            ],
+              Center(
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: ShapeDecoration(
+                    shape: CircleBorder(),
+                    color: Colors.orange,
+                    image:  DecorationImage(
+                        image: AssetImage(
+                            "assets/blank-profile-picture-973460_960_720.png"),
+                    // shape: BoxShape.circle
+                      )
+                  ),
+                ),
+              ),SizedBox(width: 10,),Column(children:[ Text("User name:",style: TextStyle(
+                fontWeight: FontWeight.w700,fontSize: 17
+              ),),SizedBox(height: 10,), Text("Natiomal ID:",style: TextStyle(
+                  fontWeight: FontWeight.w700,fontSize: 15
+              ),),])],
           ),
           Row(
             children: [
@@ -38,13 +53,13 @@ class Navdrawer extends StatelessWidget {
           ),
           Row(children: [
             SizedBox(
-              height: 10,
-              width: 70,
+              height: 30,
+              width: 20,
             ),
             Icon(
               Icons.login,
               size: 35,
-              color: Colors.grey,
+              color: Colors.orange,
             ),
             SizedBox(
               width: 15,
@@ -52,7 +67,7 @@ class Navdrawer extends StatelessWidget {
             TextButton(
               child: Text("Sign In",
                   style: TextStyle(
-                      color: Color(0xff274472),
+                      color: Colors.black,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
               onPressed: () {
@@ -66,12 +81,12 @@ class Navdrawer extends StatelessWidget {
           Row(children: [
             SizedBox(
               height: 10,
-              width: 70,
+              width: 20,
             ),
             Icon(
               Icons.app_registration,
               size: 35,
-              color: Colors.grey,
+              color: Colors.orange,
             ),
             SizedBox(
               width: 15,
@@ -79,7 +94,7 @@ class Navdrawer extends StatelessWidget {
             TextButton(
               child: Text("Sign Up",
                   style: TextStyle(
-                      color: Color(0xff274472),
+                      color: Colors.black,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
               onPressed: () {
@@ -95,46 +110,73 @@ class Navdrawer extends StatelessWidget {
           Row(children: [
             SizedBox(
               height: 10,
-              width: 70,
+              width: 20,
             ),
             Icon(
-              Icons.settings_rounded,
+              Icons.comment_outlined,
               size: 35,
-              color: Colors.grey,
+              color: Colors.orange,
             ),
             SizedBox(
               width: 15,
             ),
             TextButton(
-              child: Text("Settings",
+              child: Text("Complaints",
                   style: TextStyle(
-                      color: Color(0xff274472),
+                      color: Colors.black,
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) =>  SignInScreen()),
-                // );
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ViewComplaints()),
+                 );
               },
             )
-          ]),Row(children: [
+          ]), Row(children: [
+            SizedBox(
+              height: 10,
+              width: 20,
+            ),
+            Icon(
+              Icons.menu_book_sharp,
+              size: 35,
+              color: Colors.orange,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            TextButton(
+              child: Text("Complaint Form",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700)),
+              onPressed: () {
+                 Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>ComplainsScreen() ),
+                 );
+              },
+            )
+          ]),
+          Row(children: [
       SizedBox(
         height: 10,
-        width: 70,
+        width: 20,
       ),
       Icon(
-        Icons.settings_rounded,
+        Icons.person_outlined,
         size: 35,
-        color: Colors.grey,
+        color: Colors.orange,
       ),
       SizedBox(
         width: 15,
       ),
       TextButton(
-        child: Text("profile",
+        child: Text("Profile",
             style: TextStyle(
-                color: Color(0xff274472),
+                color: Colors.black,
                 fontSize: 21,
                 fontWeight: FontWeight.w700)),
         onPressed: () {
@@ -149,7 +191,7 @@ class Navdrawer extends StatelessWidget {
           ),
           Text("Rates",
               style: TextStyle(
-                  color: Color(0xff274472),
+                  color: Colors.black,
                   fontSize: 25,
                   fontWeight: FontWeight.w700)),
           SizedBox(
@@ -191,7 +233,7 @@ class Navdrawer extends StatelessWidget {
           Icon(
             Icons.bar_chart_rounded,
             size: 80,
-            color: Color(0xff274472),
+            color: Colors.red,
           ),
           SizedBox(
             width: 15,

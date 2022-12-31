@@ -13,23 +13,24 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   @override
+  var emailcontroller = TextEditingController();
+  var passwordcontroller = TextEditingController();
+  var formkey = GlobalKey<FormState>();
+  bool _showPassword = true;
+  var scaffoldkey = GlobalKey<ScaffoldState>();
+  void _togglevisibility() {
+    setState(() {
+      _showPassword = !_showPassword;
+    });
+  }
+
+  var firstnamecontroller = TextEditingController();
+  var lastnamecontroller = TextEditingController();
+  var phonecontroller = TextEditingController();
+  var confirmpasswordcontroller = TextEditingController();
   Widget build(BuildContext context) {
     // TODO: implement build
-    var emailcontroller = TextEditingController();
-    var passwordcontroller = TextEditingController();
-    var formkey = GlobalKey<FormState>();
-    bool _showPassword = true;
-    var scaffoldkey = GlobalKey<ScaffoldState>();
-    void _togglevisibility() {
-      setState(() {
-        _showPassword = !_showPassword;
-      });
-    }
 
-    var firstnamecontroller = TextEditingController();
-    var lastnamecontroller = TextEditingController();
-    var phonecontroller = TextEditingController();
-    var confirmpasswordcontroller = TextEditingController();
 
     return Scaffold(
       key: scaffoldkey,

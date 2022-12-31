@@ -125,8 +125,8 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return Scaffold( key: scaffoldkey,
-        drawer: Navdrawer(),
+    return Scaffold(  key: scaffoldkey,
+      drawer: Navdrawer(),
       body: Stack(
         children: <Widget>[
           Container(
