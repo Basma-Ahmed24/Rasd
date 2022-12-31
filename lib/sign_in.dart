@@ -3,7 +3,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rasd/additional_info.dart';
 import 'package:rasd/signup.dart';
 import 'complains_page.dart';
 import 'drawer.dart';

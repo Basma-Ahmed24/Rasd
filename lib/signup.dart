@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rasd/additional_info.dart';
+import 'package:rasd/sign_in.dart';
 
 import 'drawer.dart';
 
@@ -310,7 +310,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AdditionalInfoScreen()),
+                              builder: (context) => SignInScreen()),
                         );
                       }
                     },
@@ -322,9 +322,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         backgroundColor: Colors.orange),
                     child: Center(
                       child: Text(
-                        "Additional Information",
+                        "Sign In",
                         style: TextStyle(
-                          fontSize: 21,
+                          fontSize: 24,
                           fontWeight: FontWeight.bold,
                         ),
                         textAlign: TextAlign.center,
