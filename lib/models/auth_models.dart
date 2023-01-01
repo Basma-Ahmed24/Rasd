@@ -1,28 +1,30 @@
 import 'package:rasd/models/constants.dart';
 
 class AuthModels {
-  final String? firstName;
-  final String? lastName;
+  final String? name;
+  final String? email;
   final String? phone;
   final String? nationalId;
+  final String? userId;
 
-  AuthModels({this.firstName, this.lastName, this.phone, this.nationalId});
+  AuthModels({this.name, this.email, this.phone, this.nationalId, this.userId});
 
   Map<String, dynamic> toJson() {
     return {
-      Constants.firstName: firstName,
-      Constants.lastName: lastName,
+      Constants.name: name,
+      Constants.email: email,
       Constants.phoneNumber: phone,
       Constants.nationalId: nationalId,
+      Constants.uid: userId,
     };
   }
 
   factory AuthModels.fromJson(Map<String, dynamic> map) {
     return AuthModels(
-      firstName: map[Constants.firstName],
-      lastName: map[Constants.lastName],
-      phone: map[Constants.phoneNumber],
-      nationalId: map[Constants.nationalId],
-    );
+        name: map[Constants.name],
+        email: map[Constants.email],
+        phone: map[Constants.phoneNumber],
+        nationalId: map[Constants.nationalId],
+        userId: map[Constants.uid]);
   }
 }

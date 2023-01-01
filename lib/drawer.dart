@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
+
 import 'package:rasd/complains_page.dart';
-=======
->>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
+
 import 'package:rasd/profile_page.dart';
 import 'package:rasd/sign_in.dart';
 import 'package:rasd/signup.dart';
@@ -23,7 +22,6 @@ class Navdrawer extends StatelessWidget {
           Row(
             children: [
               SizedBox(
-
                 width: 10,
               ),
               Center(
@@ -31,20 +29,32 @@ class Navdrawer extends StatelessWidget {
                   width: 70,
                   height: 70,
                   decoration: ShapeDecoration(
-                    shape: CircleBorder(),
-                    color: Colors.orange,
-                    image:  DecorationImage(
+                      shape: CircleBorder(),
+                      color: Colors.orange,
+                      image: DecorationImage(
                         image: AssetImage(
                             "assets/blank-profile-picture-973460_960_720.png"),
-                    // shape: BoxShape.circle
-                      )
-                  ),
+                        // shape: BoxShape.circle
+                      )),
                 ),
-              ),SizedBox(width: 10,),Column(children:[ Text("User name:",style: TextStyle(
-                fontWeight: FontWeight.w700,fontSize: 17
-              ),),SizedBox(height: 10,), Text("Natiomal ID:",style: TextStyle(
-                  fontWeight: FontWeight.w700,fontSize: 15
-              ),),])],
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Column(children: [
+                Text(
+                  "User name:",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Natiomal ID:",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                ),
+              ])
+            ],
           ),
           Row(
             children: [
@@ -108,9 +118,6 @@ class Navdrawer extends StatelessWidget {
               },
             )
           ]),
-
-
-<<<<<<< HEAD
           Row(children: [
             SizedBox(
               height: 10,
@@ -131,13 +138,14 @@ class Navdrawer extends StatelessWidget {
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ViewComplaints()),
-                 );
+                  MaterialPageRoute(builder: (context) => ViewComplaints()),
+                );
               },
             )
-          ]), Row(children: [
+          ]),
+          Row(children: [
             SizedBox(
               height: 10,
               width: 20,
@@ -157,41 +165,40 @@ class Navdrawer extends StatelessWidget {
                       fontSize: 21,
                       fontWeight: FontWeight.w700)),
               onPressed: () {
-                 Navigator.push(
+                Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>ComplainsScreen() ),
-                 );
+                  MaterialPageRoute(builder: (context) => ComplainsScreen()),
+                );
               },
             )
           ]),
-=======
->>>>>>> ac4246821ab2dd8e325bf35b05ea16ce3edd9afb
           Row(children: [
-      SizedBox(
-        height: 10,
-        width: 20,
-      ),
-      Icon(
-        Icons.person_outlined,
-        size: 35,
-        color: Colors.orange,
-      ),
-      SizedBox(
-        width: 15,
-      ),
-      TextButton(
-        child: Text("Profile",
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 21,
-                fontWeight: FontWeight.w700)),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  Profile()),
-          );
-        },
-      )]),
+            SizedBox(
+              height: 10,
+              width: 20,
+            ),
+            Icon(
+              Icons.person_outlined,
+              size: 35,
+              color: Colors.orange,
+            ),
+            SizedBox(
+              width: 15,
+            ),
+            TextButton(
+              child: Text("Profile",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 21,
+                      fontWeight: FontWeight.w700)),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Profile()),
+                );
+              },
+            )
+          ]),
           SizedBox(
             height: 40,
           ),

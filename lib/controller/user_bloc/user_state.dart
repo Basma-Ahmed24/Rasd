@@ -1,7 +1,7 @@
-abstract class AuthStatus {}
+abstract class UserStatus {}
 
-class AuthInitialStatus extends AuthStatus {}
+class UserInitialStatus extends UserStatus {}
 
-class AuthScucessStatus extends AuthStatus {}
+class AuthScucessStatus extends UserStatus {}
 
-class AuthErrorState extends AuthStatus {}
+class AuthErrorState extends UserStatus {}

@@ -1,6 +1,6 @@
 class Constants {
-  static const String firstName = 'firstName';
-  static const String lastName = 'lastName';
+  static const String name = 'name';
+  static const String email = 'email';
   static const String phoneNumber = 'phoneNumber';
   static const String nationalId = 'nationalId';
   static const String complainsName = 'complainsName';
@@ -8,4 +8,6 @@ class Constants {
   static const String complainsDate = 'complainsDate';
   static const String password = 'password';
   static const String conPassword = 'Confirm Password';
+  static const String user = 'user';
+  static const String uid = 'userId';
 }
