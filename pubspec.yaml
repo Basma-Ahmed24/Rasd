@@ -42,12 +42,13 @@ dependencies:
   cupertino_icons:
   firebase_core:
   cloud_firestore:
+  cloud_functions:
   firebase_auth:
   image_picker:
   path:
   flutter_bloc:
   intl:
-  sqflite:
+  firebase_storage:
 
 dev_dependencies:
   flutter_test:

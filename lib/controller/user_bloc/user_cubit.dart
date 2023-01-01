@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_print, empty_catches
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rasd/complains_page.dart';
 import 'package:rasd/controller/user_bloc/user_state.dart';
 import 'package:rasd/models/auth_models.dart';
 import 'package:rasd/models/complains_models.dart';
@@ -62,7 +65,7 @@ class UserCubit extends Cubit<UserStatus> {
             (value) => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SignInScreen(),
+                builder: (context) => const ComplainsScreen(),
               ),
             ),
           );
@@ -70,18 +73,16 @@ class UserCubit extends Cubit<UserStatus> {
   }
 
   Future addComplains({
-    String? complainsName,
-    String? complainDetails,
-    DateTime? complainsDate,
+    ComplainsModels? complains,
   }) async {
     try {
       await FirebaseFirestore.instance
-          .collection('User')
-          .doc(userId)
-          .collection('Complains')
+          .collection(Constants.user)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .collection(Constants.complains)
           .doc()
           .set(
-            ComplainsModels().toJson(),
+            complains!.toJson(),
           );
     } catch (e) {}
   }

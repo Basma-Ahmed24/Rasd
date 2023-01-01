@@ -8,6 +8,8 @@ import 'complains_page.dart';
 import 'drawer.dart';
 
 class SignInScreen extends StatefulWidget {
+  const SignInScreen({super.key});
+
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -52,7 +54,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         color: Colors.black,
                       )),
                 ]),
-                Container(
+                SizedBox(
                   height: 150,
                   width: 300,
                   child: Image.asset("assets/logo.png"),
@@ -83,9 +85,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 TextFormField(
                   keyboardType: TextInputType.name,
                   controller: emailcontroller,
-                  onChanged: (String value) {
-                    print(value);
-                  },
+                  onChanged: (String value) {},
                   validator: (value) {
                     if (value!.isEmpty) {
                       return "National Id must not be empty";
@@ -128,7 +128,6 @@ class _SignInScreenState extends State<SignInScreen> {
                     return null;
                   },
                   onChanged: (String value) {
-                    print(value);
                     password = value;
                   },
                   obscureText: _showPassword,
@@ -169,7 +168,8 @@ class _SignInScreenState extends State<SignInScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ComplainsScreen()),
+                          builder: (context) => ComplainsScreen(),
+                        ),
                       );
                     }
                   },

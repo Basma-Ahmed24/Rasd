@@ -1,8 +1,17 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:rasd/profile_page.dart';
+import 'package:rasd/controller/user_bloc/user_cubit.dart';
+import 'package:rasd/controller/user_bloc/user_state.dart';
+import 'package:rasd/models/complains_models.dart';
+import 'package:rasd/models/constants.dart';
+
 import 'drawer.dart';
 
 class ComplainsScreen extends StatefulWidget {
@@ -14,227 +23,240 @@ class ComplainsScreen extends StatefulWidget {
 
 class _ComplainsScreenState extends State<ComplainsScreen> {
   String? dropdownValue = 'Lighting pole';
-  XFile? imageFile;
+  File? _selectedImage;
 
   int? selectedValue;
-  var phonecontroller = TextEditingController();
-  var addresscontroller = TextEditingController();
+  String? address, phoneNumber, complainsName, imageUrl;
   List<String> items = ['Lighting pole', 'potholes', 'Building violation'];
   final ImagePicker image = ImagePicker();
   var formkey = GlobalKey<FormState>();
   var scaffoldkey = GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
 
-  getgal() async {
-    dynamic img = await ImagePicker.platform
-        .getImageFromSource(source: ImageSource.gallery);
+  Future pickImage(BuildContext context) async {
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage == null) {
+      return;
+    }
     setState(() {
-      imageFile = img;
+      _selectedImage = File(pickedImage.path);
     });
   }
 
+  @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-
-    int? selectedValue;
-    var phonecontroller = TextEditingController();
-    var addresscontroller = TextEditingController();
-    List<String> items = ['Lighting pole', 'potholes', 'Building violation'];
-
-    var formkey = GlobalKey<FormState>();
-    var scaffoldkey = GlobalKey<ScaffoldState>();
-
-    return Scaffold(
-      key: scaffoldkey,
-      drawer: Navdrawer(),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Form(
-          key: formkey,
-          child: Padding(
-              padding: EdgeInsets.all(15),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
-                    width: 0,
-                  ),
-                  Row(children: [
-                    IconButton(
-                        onPressed: () => scaffoldkey.currentState?.openDrawer(),
-                        icon: Icon(Icons.menu, size: 35, color: Colors.black)),
-                  ]),
-                  Container(
-                    height: 70,
-                    width: 250,
-                    child: Image.asset("assets/logo.png"),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text("Complains Form",
+    return BlocConsumer<UserCubit, UserStatus>(
+      listener: (context, state) {},
+      builder: (ctx, state) {
+        final cubit = UserCubit.get(ctx);
+        return Scaffold(
+          key: scaffoldkey,
+          drawer: Navdrawer(),
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Form(
+              key: formkey,
+              child: Padding(
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      width: 0,
+                    ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () =>
+                              scaffoldkey.currentState?.openDrawer(),
+                          icon: Icon(
+                            Icons.menu,
+                            size: 35,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 70,
+                      width: 250,
+                      child: Image.asset("assets/logo.png"),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      "Complains Form",
                       style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w800,
                         color: Colors.black,
-                      )),
-                  if (imageFile == null)
-                    IconButton(
-                      onPressed: () async {
-                        getgal();
-                      },
-                      icon: Icon(
-                        Icons.image,
-                        size: 150,
-                      ),
-                      iconSize: 150,
-                      color: Colors.grey,
-                    )
-                  else
-                    Image.file(File(imageFile!.path)),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DropdownButtonFormField(
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        //<-- SEE HERE
-                        borderSide: BorderSide(color: Colors.black12, width: 2),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        //<-- SEE HERE
-                        borderSide: BorderSide(
-                          color: Colors.grey,
-                          width: 2,
-                        ),
                       ),
                     ),
-                    items: <String>[
-                      'Lighting pole',
-                      'potholes',
-                      'Building violation'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: TextStyle(fontSize: 17),
+                    if (_selectedImage == null)
+                      IconButton(
+                        onPressed: () async {
+                          await pickImage(context).then(
+                            (value) async {
+                              final userId =
+                                  FirebaseAuth.instance.currentUser!.uid;
+                              final ref = FirebaseStorage.instance
+                                  .ref()
+                                  .child(Constants.image)
+                                  .child(userId + Constants.image);
+                              await ref.putFile(_selectedImage!).whenComplete(
+                                () async {
+                                  imageUrl = await ref.getDownloadURL();
+                                },
+                              );
+                            },
+                          );
+                        },
+                        icon: Icon(
+                          Icons.image,
+                          size: 150,
                         ),
-                      );
-                    }).toList(),
-                    value: dropdownValue,
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownValue = newValue!;
-                        print(dropdownValue);
-                      });
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: phonecontroller,
-                      onChanged: (String value) {
-                        print(value);
-                      },
-                      decoration: const InputDecoration(
-                        hintStyle: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500),
-                        focusedBorder: OutlineInputBorder(
+                        iconSize: 150,
+                        color: Colors.grey,
+                      )
+                    else
+                      Image.file(
+                        File(
+                          _selectedImage!.path,
+                        ),
+                      ),
+                    SizedBox(height: 10),
+                    DropdownButtonFormField(
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
                           borderSide:
-                              BorderSide(color: Colors.blueAccent, width: 2.0),
+                              BorderSide(color: Colors.black12, width: 2),
                         ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(13),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.grey,
+                            width: 2,
                           ),
                         ),
-                        hintText: "Address",
                       ),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "address must not be empty";
-                        }
-                      },
-                      style: const TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.w500)),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  TextFormField(
-                      keyboardType: TextInputType.name,
-                      controller: phonecontroller,
-                      onChanged: (String value) {
-                        print(value);
-                      },
-                      decoration: const InputDecoration(
-                          hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Colors.blueAccent, width: 2.0),
-                          ),
-                          prefixIcon: Icon(
-                            Icons.phone,
-                            color: Colors.black45,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(13),
+                      items: items.map<DropdownMenuItem<String>>(
+                        (String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(fontSize: 17),
                             ),
-                          ),
-                          hintText: "Phone No",
-                          contentPadding:
-                              EdgeInsets.symmetric(vertical: 4, horizontal: 5)),
-                      style: const TextStyle(
-                          fontSize: 17, fontWeight: FontWeight.w500),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return "phone no must not be empty";
-                        }
-                      }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (formkey.currentState!.validate()) {
-                        print(phonecontroller.text);
-                        print(addresscontroller.text);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Profile()),
+                          );
+                        },
+                      ).toList(),
+                      value: dropdownValue,
+                      onChanged: (String? newValue) {
+                        setState(
+                          () {
+                            dropdownValue = newValue!;
+                          },
                         );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                      },
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    complainsTextFormField(Constants.address),
+                    SizedBox(height: 20),
+                    complainsTextFormField(Constants.phoneNumber),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (formkey.currentState!.validate()) {
+                          formkey.currentState!.save();
+
+                          print('image $imageUrl');
+                          print(address);
+                          ComplainsModels complains = ComplainsModels(
+                            adress: address,
+                            phone: phoneNumber,
+                            complainsDate: DateTime.now(),
+                            complainsName: dropdownValue,
+                            image: imageUrl,
+                          );
+                          print(complains.phone);
+                          await cubit.addComplains(
+                            complains: complains,
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          fixedSize: const Size(400, 55),
+                          backgroundColor: Colors.orange),
+                      child: Center(
+                        child: Text(
+                          "Submit",
+                          style: TextStyle(
+                            fontSize: 21,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        fixedSize: const Size(400, 55),
-                        backgroundColor: Colors.orange),
-                    child: Center(
-                      child: Text(
-                        "Submit",
-                        style: TextStyle(
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                ],
-              )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget complainsTextFormField(String? hintText) {
+    return TextFormField(
+      keyboardType: TextInputType.name,
+      onSaved: (newValue) {
+        if (hintText!.trim() == Constants.address) {
+          address = newValue!;
+        } else if (hintText.trim() == Constants.phoneNumber) {
+          phoneNumber = newValue!;
+        }
+      },
+      decoration: InputDecoration(
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
         ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+        ),
+        prefixIcon: Icon(
+          Icons.phone,
+          color: Colors.black45,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(13),
+          ),
+        ),
+        hintText: hintText,
       ),
+      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+      validator: (value) {
+        if (hintText!.trim() == Constants.phoneNumber) {
+          if (value!.isEmpty) {
+            return "phone no must not be empty";
+          }
+        } else if (hintText.trim() == Constants.address.trim()) {
+          if (value!.isEmpty) {
+            return "address must not be empty";
+          }
+        }
+        return null;
+      },
     );
   }
 }

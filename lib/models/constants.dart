@@ -10,4 +10,7 @@ class Constants {
   static const String conPassword = 'Confirm Password';
   static const String user = 'user';
   static const String uid = 'userId';
+  static const String complains = 'complains';
+  static const String address = 'address';
+  static const String image = 'image';
 }
