@@ -30,7 +30,6 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
   int? selectedValue;
   String? address, phoneNumber, complainsName, imageUrl;
   List<String> items = ['Lighting pole', 'potholes', 'Building violation'];
-  // final ImagePicker image = ImagePicker();
   var formkey = GlobalKey<FormState>();
   var scaffoldkey = GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
@@ -64,7 +63,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 30,
+                      height: MediaQuery.of(context).size.height/30,
                       width: 0,
                     ),
                     Row(
@@ -74,26 +73,26 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                               scaffoldkey.currentState?.openDrawer(),
                           icon: Icon(
                             Icons.menu,
-                            size: 35,
+                            size: 30,
                             color: Colors.black,
                           ),
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: 70,
+                      height: MediaQuery.of(context).size.height/12,
                       width: 250,
                       child: Image.asset("assets/logo.png"),
                     ),
                     SizedBox(
-                      height: 20,
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     Text(
                       "Complains Form",
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 25,
                         fontWeight: FontWeight.w800,
-                        color: Colors.black,
+                        color: Colors.orange,
                       ),
                     ),
                     if (_selectedImage == null)
@@ -131,7 +130,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                           _selectedImage!.path,
                         ),
                       ),
-                    SizedBox(height: 10),
+                    SizedBox( height: MediaQuery.of(context).size.height/50,),
                     DropdownButtonFormField(
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
@@ -166,12 +165,12 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                       },
                     ),
                     SizedBox(
-                      height: 10,
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     complainsTextFormField(Constants.address),
-                    SizedBox(height: 20),
-                    complainsTextFormField(Constants.phoneNumber),
-                    SizedBox(height: 20),
+                    SizedBox( height: MediaQuery.of(context).size.height/50,),
+                    complainsTextFormField(Constants.phoneNumber,),
+                    SizedBox( height: MediaQuery.of(context).size.height/50,),
                     ElevatedButton(
                       onPressed: () async {
                         if (formkey.currentState!.validate() &&
@@ -205,10 +204,9 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          fixedSize: const Size(400, 55),
-                          backgroundColor: _selectedImage == null
-                              ? Colors.grey
-                              : Colors.orange),
+                          fixedSize: const Size(370, 50),
+                          backgroundColor:
+                              Colors.orange),
                       child: Center(
                         child: Text(
                           "Submit",
@@ -249,10 +247,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
         ),
-        prefixIcon: Icon(
-          Icons.phone,
-          color: Colors.black45,
-        ),
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(13),

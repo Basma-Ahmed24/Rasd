@@ -37,7 +37,7 @@ class ViewComplaints extends StatelessWidget {
                       (snapShot.data as QuerySnapshot).docs;
                   if (complainsData.isEmpty) {
                     return const Center(
-                      child: Text('No Complains is Add Yet'),
+                      child: Text('No Complains is Add Yet',style: TextStyle(fontSize: 20),),
                     );
                   }
                   return SafeArea(
@@ -52,19 +52,19 @@ class ViewComplaints extends StatelessWidget {
                                     scaffoldkey.currentState?.openDrawer(),
                                 icon: const Icon(
                                   Icons.menu,
-                                  size: 35,
+                                  size: 30,
                                   color: Colors.black,
                                 ),
                               ),
                             ],
                           ),
                           SizedBox(
-                            height: 60,
+                            height: MediaQuery.of(context).size.height/15,
                             width: 300,
                             child: Image.asset("assets/logo.png"),
                           ),
-                          const SizedBox(
-                            height: 10,
+                           SizedBox(
+                          height:   MediaQuery.of(context).size.height/50,
                           ),
                           Expanded(
                             child: ListView.separated(
@@ -89,8 +89,8 @@ class ViewComplaints extends StatelessWidget {
                                         child: Row(
                                           children: [
                                             Container(
-                                              width: 200,
-                                              height: 120,
+                                              width: MediaQuery.of(context).size.width/2,
+                                              height: MediaQuery.of(context).size.height/5,
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 0, 10, 0),
                                               child: ClipRRect(
@@ -99,8 +99,7 @@ class ViewComplaints extends StatelessWidget {
                                                 child: Image.network(
                                                   complainsData[index][
                                                       Constants.complainsimage],
-                                                  width: 200,
-                                                  height: 150,
+
                                                   fit: BoxFit.cover,
                                                 ),
                                               ),
@@ -110,7 +109,7 @@ class ViewComplaints extends StatelessWidget {
                                                 complainsData[index]
                                                     [Constants.complainsName],
                                                 style: const TextStyle(
-                                                  fontSize: 20,
+                                                  fontSize: 18,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                               ),
@@ -118,35 +117,35 @@ class ViewComplaints extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(height: 10),
+                                      SizedBox( height: MediaQuery.of(context).size.height/70,),
                                       Row(
                                         children: [
-                                          const SizedBox(width: 10),
+                                          const SizedBox(width: 5),
                                           Text(
                                             dateString,
                                             style: const TextStyle(
-                                              fontSize: 15.5,
+                                              fontSize: 14,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 30,
+                                          SizedBox(
+                                            width: MediaQuery.of(context).size.width/20,
                                           ),
                                           Text(
                                             complainsData[index]
                                                 [Constants.complainsadress],
                                             style: const TextStyle(
-                                              fontSize: 15.5,
+                                              fontSize: 15,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
-                                          const SizedBox(
-                                            width: 130,
+                                          SizedBox(
+                                            width: MediaQuery.of(context).size.width/3
                                           ),
                                           const Text(
                                             "Edit",
                                             style: TextStyle(
-                                              fontSize: 20,
+                                              fontSize: 18,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
@@ -173,32 +172,7 @@ class ViewComplaints extends StatelessWidget {
                                   ),
                                 );
                               },
-                              // children: [
-                              //   Row(
-                              //     children: [
-                              //       IconButton(
-                              //         onPressed: () =>
-                              //             scaffoldkey.currentState?.openDrawer(),
-                              //         icon: const Icon(
-                              //           Icons.menu,
-                              //           size: 35,
-                              //           color: Colors.black,
-                              //         ),
-                              //       ),
-                              //     ],
-                              //   ),
-                              //   SizedBox(
-                              //     height: 60,
-                              //     width: 300,
-                              //     child: Image.asset("assets/logo.png"),
-                              //   ),
-                              //   const SizedBox(
-                              //     height: 10,
-                              //   ),
-                              //   SingleChildScrollView(
-                              //     child:
-                              //   )
-                              // ],
+
                             ),
                           ),
                         ],

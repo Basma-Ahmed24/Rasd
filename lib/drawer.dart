@@ -29,7 +29,6 @@ class Navdrawer extends StatelessWidget {
                 if (data.connectionState == ConnectionState.waiting) {
                   return const Center(child: SingleChildScrollView());
                 }
-
                 return data.hasError
                     ? const Center(
                         child: Text('an Error Occured'),

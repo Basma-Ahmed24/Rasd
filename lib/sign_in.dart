@@ -34,8 +34,6 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldkey,
-      drawer: Navdrawer(),
       body: BlocConsumer<UserCubit, UserStatus>(
         listener: (BuildContext context, state) {},
         builder: (ctx, state) {
@@ -50,37 +48,26 @@ class _SignInScreenState extends State<SignInScreen> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: 30,
-                        width: 10,
+                        height: MediaQuery.of(context).size.height/10,
                       ),
-                      Row(children: [
-                        IconButton(
-                            onPressed: () =>
-                                scaffoldkey.currentState?.openDrawer(),
-                            icon: Icon(
-                              Icons.menu,
-                              size: 35,
-                              color: Colors.black,
-                            )),
-                      ]),
                       SizedBox(
-                        height: 150,
-                        width: 300,
+                        height:  MediaQuery.of(context).size.height/10,
+                        width: MediaQuery.of(context).size.width,
                         child: Image.asset("assets/logo.png"),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height/50,
                       ),
                       Text(
                         "Sign In"
                         "",
                         style: TextStyle(
-                            fontSize: 35,
+                            fontSize: 30,
                             fontWeight: FontWeight.w800,
                             color: Colors.orange),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height/50,
                       ),
                       Text("Welcome To RASD !",
                           style: TextStyle(
@@ -89,8 +76,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             color: Colors.black,
                           )),
                       SizedBox(
-                        height: 10,
-                      ),
+                        height: MediaQuery.of(context).size.height/50,),
                       TextFormField(
                         keyboardType: TextInputType.name,
                         controller: emailcontroller,
@@ -122,7 +108,7 @@ class _SignInScreenState extends State<SignInScreen> {
                             fontSize: 17, fontWeight: FontWeight.w500),
                       ),
                       SizedBox(
-                        height: 10,
+                        height: MediaQuery.of(context).size.height/50,
                       ),
                       TextFormField(
                         controller: passwordcontroller,
@@ -167,7 +153,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.height/50,
                       ),
 
                       // Sign In Button
@@ -190,13 +176,13 @@ class _SignInScreenState extends State<SignInScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                             ),
-                            fixedSize: const Size(400, 55),
+                            fixedSize: const Size(370, 50),
                             backgroundColor: Colors.orange),
                         child: Center(
                           child: Text(
                             "Sign In",
                             style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 23,
                               fontWeight: FontWeight.bold,
                             ),
                             textAlign: TextAlign.center,
@@ -205,7 +191,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
 
                       SizedBox(
-                        height: 10,
+                        height: MediaQuery.of(context).size.height/70,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
