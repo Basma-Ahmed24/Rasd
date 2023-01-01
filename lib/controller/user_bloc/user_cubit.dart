@@ -18,6 +18,8 @@ class UserCubit extends Cubit<UserStatus> {
   static UserCubit get(context) => BlocProvider.of(context);
   String? _userId;
   String? get userId => _userId;
+  Stream<QuerySnapshot<Map<String, dynamic>>>? complains;
+  Future<DocumentSnapshot<Map<String, dynamic>>>? userInfo;
   Future<UserCredential?> authWithEmail(
     String? email,
     String? pass,
@@ -85,5 +87,30 @@ class UserCubit extends Cubit<UserStatus> {
             complains!.toJson(),
           );
     } catch (e) {}
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>>? getComplains() async* {
+    try {
+      final uid = FirebaseAuth.instance.currentUser!.uid;
+
+      complains = FirebaseFirestore.instance
+          .collection(Constants.user)
+          .doc(uid)
+          .collection(Constants.complains)
+          .snapshots();
+      yield* complains!;
+    } catch (e) {}
+  }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>>? getUserInfo() async {
+    try {
+      userInfo = FirebaseFirestore.instance
+          .collection(Constants.user)
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+      return userInfo!;
+    } catch (e) {
+      throw e;
+    }
   }
 }

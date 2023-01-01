@@ -48,6 +48,7 @@ dependencies:
   path:
   flutter_bloc:
   intl:
+  uuid:
   firebase_storage:
 
 dev_dependencies:

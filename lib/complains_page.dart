@@ -11,6 +11,8 @@ import 'package:rasd/controller/user_bloc/user_cubit.dart';
 import 'package:rasd/controller/user_bloc/user_state.dart';
 import 'package:rasd/models/complains_models.dart';
 import 'package:rasd/models/constants.dart';
+import 'package:rasd/view_complains.dart';
+import 'package:uuid/uuid.dart';
 
 import 'drawer.dart';
 
@@ -28,7 +30,7 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
   int? selectedValue;
   String? address, phoneNumber, complainsName, imageUrl;
   List<String> items = ['Lighting pole', 'potholes', 'Building violation'];
-  final ImagePicker image = ImagePicker();
+  // final ImagePicker image = ImagePicker();
   var formkey = GlobalKey<FormState>();
   var scaffoldkey = GlobalKey<ScaffoldState>();
   final picker = ImagePicker();
@@ -97,14 +99,17 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                     if (_selectedImage == null)
                       IconButton(
                         onPressed: () async {
+                          var uuid = Uuid();
+
+                          final imageId = uuid.v4();
+                          print(imageId);
+
                           await pickImage(context).then(
                             (value) async {
-                              final userId =
-                                  FirebaseAuth.instance.currentUser!.uid;
                               final ref = FirebaseStorage.instance
                                   .ref()
                                   .child(Constants.image)
-                                  .child(userId + Constants.image);
+                                  .child(imageId + Constants.image);
                               await ref.putFile(_selectedImage!).whenComplete(
                                 () async {
                                   imageUrl = await ref.getDownloadURL();
@@ -169,7 +174,8 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                     SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
-                        if (formkey.currentState!.validate()) {
+                        if (formkey.currentState!.validate() &&
+                            _selectedImage != null) {
                           formkey.currentState!.save();
 
                           print('image $imageUrl');
@@ -182,9 +188,17 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                             image: imageUrl,
                           );
                           print(complains.phone);
-                          await cubit.addComplains(
-                            complains: complains,
-                          );
+                          await cubit
+                              .addComplains(
+                                complains: complains,
+                              )
+                              .then(
+                                (value) => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewComplaints(),
+                                  ),
+                                ),
+                              );
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -192,7 +206,9 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                             borderRadius: BorderRadius.circular(30),
                           ),
                           fixedSize: const Size(400, 55),
-                          backgroundColor: Colors.orange),
+                          backgroundColor: _selectedImage == null
+                              ? Colors.grey
+                              : Colors.orange),
                       child: Center(
                         child: Text(
                           "Submit",
