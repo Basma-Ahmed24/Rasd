@@ -14,7 +14,7 @@ class AuthModels {
       this.phone,
       this.nationalId,
       this.userId,
-      this.image});
+      this.image = ''});
 
   Map<String, dynamic> toJson() {
     return {

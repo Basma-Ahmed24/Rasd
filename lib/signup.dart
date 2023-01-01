@@ -132,17 +132,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           )
                               .then(
                             (value) async {
-                              // await LocalDataBaseHelper().insertData(
-                              //   AuthModels(
-                              //     name: name,
-                              //     email: email,
-                              //     phone: phone,
-                              //     nationalId: nationalId,
-                              //     userId: value!.user!.uid,
-                              //   ),
-                              // );
-                              //  await localUserData();
-                              //  print("localUser!.name is ${localUser!.name}");
                               AuthModels user = AuthModels(
                                 email: email,
                                 phone: phone,

@@ -237,6 +237,7 @@ class _ProfileState extends State<Profile> {
                                     SizedBox(height: size.maxHeight * 0.2),
                                     _buildProfileImage(
                                         cubit,
+                                        // ignore: prefer_if_null_operators
                                         (data.data
                                             as dynamic)[Constants.userImage]),
                                     _buildBio(context),

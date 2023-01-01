@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, empty_catches
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,6 +44,7 @@ class UserCubit extends Cubit<UserStatus> {
           return value;
         },
       );
+      return credential;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -51,8 +53,32 @@ class UserCubit extends Cubit<UserStatus> {
       }
     } catch (e) {
       print('erroe is $e');
+      throw e.toString();
     }
-    return credential!;
+  }
+
+  Future signInwithEmailandPass(
+      {String? email, String? pass, BuildContext? context}) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email!, password: pass!)
+          .then(
+        (value) {
+          Navigator.of(context!).push(
+            MaterialPageRoute(
+              builder: ((context) => const ComplainsScreen()),
+            ),
+          );
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+      throw e.toString();
+    }
   }
 
   Future addUserInfo(
@@ -104,7 +130,7 @@ class UserCubit extends Cubit<UserStatus> {
               (value) => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ComplainsScreen(),
+                  builder: (context) => const SignInScreen(),
                 ),
               ),
             );
