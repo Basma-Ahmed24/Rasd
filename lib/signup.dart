@@ -19,38 +19,19 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   String? name, email, phone, password, confirmPass, nationalId;
   var formkey = GlobalKey<FormState>();
-  bool _showPassword = true;
+  bool _showPassword =true;
   var scaffoldkey = GlobalKey<ScaffoldState>();
-  // var nationalIdController = TextEditingController();
+   var nationalIdController = TextEditingController();
   var passwordcontroller = TextEditingController();
-  // var firstnamecontroller = TextEditingController();
-  // var lastnamecontroller = TextEditingController();
-  // var phonecontroller = TextEditingController();
-  //var confirmpasswordcontroller = TextEditingController();
+  var firstnamecontroller = TextEditingController();
+  var lastnamecontroller = TextEditingController();
+  var phonecontroller = TextEditingController();
+  var confirmpasswordcontroller = TextEditingController();
   void _togglevisibility() {
     setState(() {
       _showPassword = !_showPassword;
     });
   }
-
-  // AuthModels? localUser;
-  // Future<AuthModels> localUserData() async {
-  //   // var db = LocalDataBase.db;
-
-  //   await LocalDataBaseHelper().getUserData().then((value) {
-  //     // print(value);
-  //     localUser = value;
-  //     return localUser;
-  //   });
-  //   return localUser!;
-  // }
-
-  // @override
-  // void initState() {
-  //   LocalDataBaseHelper().initDB();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserCubit, UserStatus>(
@@ -58,8 +39,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (ctx, state) {
         final cubit = UserCubit.get(ctx);
         return Scaffold(
-          key: scaffoldkey,
-          drawer: Navdrawer(),
           backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Form(
@@ -70,33 +49,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 30,
-                      width: 0,
+                      height: MediaQuery.of(context).size.height/15,
                     ),
-                    Row(children: [
-                      IconButton(
-                        onPressed: () => scaffoldkey.currentState?.openDrawer(),
-                        icon: Icon(Icons.menu, size: 35, color: Colors.black),
-                      ),
-                    ]),
+
                     Container(
-                      height: 70,
-                      width: 250,
+                      height:  MediaQuery.of(context).size.height/12,
+                      width: MediaQuery.of(context).size.width,
                       child: Image.asset("assets/logo.png"),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     Text(
                       "Sign Up",
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 25,
                         fontWeight: FontWeight.w800,
                         color: Colors.orange,
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: MediaQuery.of(context).size.height/50,
                     ),
                     Text(
                       "Welcome To RASD !",
@@ -106,19 +79,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: Colors.black,
                       ),
                     ),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.name),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.email),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.nationalId),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.phoneNumber),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.password),
-                    SizedBox(height: 20),
-                    textFormField(hintText: Constants.conPassword),
-                    SizedBox(height: 30),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.name,icon: Constants.person),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.email,icon: Constants.emaill),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.nationalId,icon: Constants.card),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.phoneNumber,icon: Constants.phone),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.password,icon: Constants.pass,lock: Constants.lock,unlock: Constants.unlock),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
+                    textFormField(hintText: Constants.conPassword,icon: Constants.pass,lock: Constants.lock,unlock: Constants.unlock),
+                    SizedBox(height: MediaQuery.of(context).size.height/50,),
                     ElevatedButton(
                       onPressed: () async {
                         if (formkey.currentState!.validate()) {
@@ -148,13 +121,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          fixedSize: const Size(400, 55),
+                          fixedSize: const Size(370, 50),
                           backgroundColor: Colors.orange),
                       child: Center(
                         child: Text(
-                          "Sign In",
+                          "Sign Up",
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
@@ -172,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget textFormField({
-    required String? hintText,
+    required String? hintText,IconData? icon,IconData? lock,IconData? unlock
   }) {
     return TextFormField(
       keyboardType: hintText!.trim() == Constants.phoneNumber ||
@@ -181,21 +154,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
           : TextInputType.name,
       controller:
           hintText.trim() == Constants.password ? passwordcontroller : null,
-      // onChanged: (newValue) {
-      //   if (hintText.trim() == Constants.name) {
-      //     firstnamecontroller.text = newValue;
-      //   } else if (hintText.trim() == Constants.email) {
-      //     lastnamecontroller.text = newValue;
-      //   } else if (hintText.trim() == Constants.nationalId) {
-      //     nationalIdController.text = newValue;
-      //   } else if (hintText.trim() == Constants.phoneNumber) {
-      //     passwordcontroller.text = newValue;
-      //   } else if (hintText.trim() == Constants.password) {
-      //     passwordcontroller.text = newValue;
-      //   } else if (hintText.trim() == Constants.conPassword) {
-      //     confirmpasswordcontroller.text = newValue;
-      //   }
-      // },
+      onChanged: (newValue) {
+        if (hintText.trim() == Constants.name) {
+          firstnamecontroller.text = newValue;
+        } else if (hintText.trim() == Constants.email) {
+          lastnamecontroller.text = newValue;
+        } else if (hintText.trim() == Constants.nationalId) {
+          nationalIdController.text = newValue;
+        } else if (hintText.trim() == Constants.phoneNumber) {
+          phonecontroller.text = newValue;
+        } else if (hintText.trim() == Constants.password) {
+          passwordcontroller.text = newValue;
+        } else if (hintText.trim() == Constants.conPassword) {
+          confirmpasswordcontroller.text = newValue;
+        }
+      },
       onSaved: (newValue) {
         if (hintText.trim() == Constants.name) {
           name = newValue!;
@@ -207,7 +180,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           phone = newValue!;
         } else if (hintText.trim() == Constants.password) {
           password = newValue!;
-          passwordcontroller.text = newValue;
+
         } else if (hintText.trim() == Constants.conPassword) {
           confirmPass = newValue!;
         }
@@ -255,6 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
         return null;
       },
+      obscureText: _showPassword,
       decoration: InputDecoration(
         hintStyle: TextStyle(
           color: Colors.grey,
@@ -268,7 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
         prefixIcon: Icon(
-          Icons.person_outlined,
+         icon,
           color: Colors.black45,
         ),
         border: OutlineInputBorder(
@@ -276,7 +250,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Radius.circular(13),
           ),
         ),
-        hintText: hintText,
+        hintText: hintText, suffixIcon: GestureDetector(
+        onTap: () {
+          _togglevisibility();
+        },
+        child: Icon(
+          _showPassword
+              ? unlock
+              : lock,
+          color: Colors.black45,
+        ),
+      ),
         contentPadding: EdgeInsets.symmetric(
           vertical: 4,
           horizontal: 5,
