@@ -55,22 +55,58 @@ class UserCubit extends Cubit<UserStatus> {
     return credential!;
   }
 
-  Future addUserInfo(BuildContext context, AuthModels user) async {
+  Future addUserInfo(
+    BuildContext context,
+    AuthModels user, {
+    bool? isUpdatePhoto = false,
+    bool? isUpdateName = false,
+    bool? isUpdatePassword = false,
+    String? newPassword,
+  }) async {
     try {
-      await FirebaseFirestore.instance
-          .collection(Constants.user)
-          .doc(userId)
-          .set(
-            user.toJson(),
-          )
-          .then(
-            (value) => Navigator.push(
-              context,
+      if (isUpdatePhoto!) {
+        print(user.image);
+        await FirebaseFirestore.instance
+            .collection(Constants.user)
+            .doc(userId)
+            .update({Constants.userImage: user.image});
+      }
+      if (isUpdateName!) {
+        await FirebaseFirestore.instance
+            .collection(Constants.user)
+            .doc(userId)
+            .update({Constants.name: user.name});
+      }
+      if (isUpdatePassword! &&
+          newPassword!.isNotEmpty &&
+          newPassword.trim().isNotEmpty) {
+        FirebaseAuth.instance.currentUser!.updatePassword(newPassword).then(
+          (value) {
+            Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => const ComplainsScreen(),
+                builder: ((context) => const SignInScreen()),
               ),
-            ),
-          );
+            );
+          },
+        );
+      }
+
+      if (!isUpdateName && !isUpdatePassword && !isUpdatePhoto) {
+        await FirebaseFirestore.instance
+            .collection(Constants.user)
+            .doc(userId)
+            .set(
+              user.toJson(),
+            )
+            .then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ComplainsScreen(),
+                ),
+              ),
+            );
+      }
     } catch (e) {}
   }
 
@@ -110,7 +146,7 @@ class UserCubit extends Cubit<UserStatus> {
           .get();
       return userInfo!;
     } catch (e) {
-      throw e;
+      rethrow;
     }
   }
 }

@@ -23,7 +23,7 @@ class ComplainsModels {
       Constants.complainsadress: adress,
       Constants.complainsDate: complainsDate,
       Constants.phoneNumber: phone,
-      Constants.image: image,
+      Constants.complainsimage: image,
     };
   }
 
@@ -33,7 +33,7 @@ class ComplainsModels {
       adress: map[Constants.complainsadress],
       complainsDate: map[Constants.complainsDate],
       phone: map[Constants.phoneNumber],
-      image: map[Constants.image],
+      image: map[Constants.complainsimage],
     );
   }
 }

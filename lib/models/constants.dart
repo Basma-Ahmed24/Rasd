@@ -12,5 +12,6 @@ class Constants {
   static const String uid = 'userId';
   static const String complains = 'complains';
   static const String address = 'address';
-  static const String image = 'image';
+  static const String complainsimage = 'complainsImage';
+  static const String userImage = 'image';
 }

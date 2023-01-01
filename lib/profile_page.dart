@@ -2,13 +2,16 @@
 
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rasd/controller/user_bloc/user_cubit.dart';
 import 'package:rasd/controller/user_bloc/user_state.dart';
 import 'package:rasd/mini_screen.dart';
+import 'package:rasd/models/auth_models.dart';
+import 'package:rasd/models/constants.dart';
 
 import 'drawer.dart';
 
@@ -24,6 +27,7 @@ class _ProfileState extends State<Profile> {
   var scaffoldkey = GlobalKey<ScaffoldState>();
   final String _bio = "Personal Information";
   File? _selectedImage;
+  String? newImage;
   final picker = ImagePicker();
   Future pickImage() async {
     final pickedImage = await picker.pickImage(source: ImageSource.gallery);
@@ -35,7 +39,8 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  Widget _buildProfileImage() {
+  Widget _buildProfileImage(UserCubit cubit, String imageurl) {
+    print('imageUrl is $imageurl');
     return Center(
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -46,22 +51,31 @@ class _ProfileState extends State<Profile> {
               height: 180,
               width: 180,
               child: Container(
-                decoration: _selectedImage == null
+                decoration: _selectedImage == null && imageurl.isEmpty
                     ? const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(
-                                "assets/blank-profile-picture-973460_960_720.png")),
-                        shape: BoxShape.circle)
-                    : BoxDecoration(
-                        image: DecorationImage(
                           image: AssetImage(
-                            _selectedImage!.path,
+                            "assets/blank-profile-picture-973460_960_720.png",
                           ),
                         ),
-                        shape: BoxShape.circle),
-                margin: const EdgeInsets.all(
-                  16,
-                ),
+                        shape: BoxShape.circle)
+                    : _selectedImage != null
+                        ? BoxDecoration(
+                            image: DecorationImage(
+                              image: FileImage(
+                                _selectedImage!,
+                              ),
+                            ),
+                            shape: BoxShape.circle)
+                        : BoxDecoration(
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                imageurl,
+                              ),
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                margin: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
@@ -80,7 +94,29 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           InkWell(
-            onTap: () => pickImage(),
+            onTap: () async {
+              await pickImage().then(
+                (value) async {
+                  final ref = FirebaseStorage.instance
+                      .ref()
+                      .child(Constants.userImage)
+                      .child(
+                        FirebaseAuth.instance.currentUser!.uid +
+                            Constants.userImage,
+                      );
+                  await ref.putFile(_selectedImage!).whenComplete(
+                    () async {
+                      newImage = await ref.getDownloadURL();
+                    },
+                  );
+                },
+              ).whenComplete(() {
+                print('new image is $newImage');
+
+                cubit.addUserInfo(context, AuthModels(image: newImage),
+                    isUpdatePhoto: true);
+              });
+            },
             child: Container(
               width: 50,
               height: 40,
@@ -181,11 +217,11 @@ class _ProfileState extends State<Profile> {
                                       ),
                                     ],
                                   ),
-                                  const Center(
+                                  Center(
                                     child: Text(
-                                      "Name: Basma Ahmed",
+                                      'Name : ${(data.data as dynamic)[Constants.name]}',
                                       style: TextStyle(
-                                        fontSize: 30,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.w800,
                                         color: Colors.white,
                                       ),
@@ -199,7 +235,10 @@ class _ProfileState extends State<Profile> {
                                 child: Column(
                                   children: <Widget>[
                                     SizedBox(height: size.maxHeight * 0.2),
-                                    _buildProfileImage(),
+                                    _buildProfileImage(
+                                        cubit,
+                                        (data.data
+                                            as dynamic)[Constants.userImage]),
                                     _buildBio(context),
                                     _buildSeparator(size),
                                     const SizedBox(height: 10.0),
@@ -213,7 +252,7 @@ class _ProfileState extends State<Profile> {
                                           children: [
                                             Expanded(
                                               child: Text(
-                                                "Name: Basma Ahmed",
+                                                'Name : ${(data.data as dynamic)[Constants.name]}',
                                                 style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight
@@ -224,25 +263,29 @@ class _ProfileState extends State<Profile> {
                                               ),
                                             ),
                                             IconButton(
-                                                onPressed: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        AlertDialog(
-                                                      content: Mini(),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    content: Mini(
+                                                      cubit: cubit,
+                                                      isName: true,
                                                     ),
-                                                  );
-                                                },
-                                                icon: const Icon(
-                                                  Icons.edit,
-                                                  color: Colors.orange,
-                                                ))
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.edit,
+                                                color: Colors.orange,
+                                              ),
+                                            )
                                           ],
                                         ),
                                         SizedBox(
                                             height: size.maxHeight * 0.025),
-                                        const Text(
-                                          "National Id:12358795412635",
+                                        Text(
+                                          'national Id : ${(data.data as dynamic)[Constants.nationalId]}',
                                           style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight
@@ -255,10 +298,10 @@ class _ProfileState extends State<Profile> {
                                             height: size.maxHeight * 0.025),
                                         // ignore: prefer_const_literals_to_create_immutables
                                         Row(
-                                          children: const [
+                                          children: [
                                             SizedBox(width: 20),
                                             Text(
-                                              "Phone: 011458792698",
+                                              'Phone : ${(data.data as dynamic)[Constants.phoneNumber]}',
                                               style: TextStyle(
                                                 fontSize: 20,
                                                 fontWeight: FontWeight
@@ -276,7 +319,10 @@ class _ProfileState extends State<Profile> {
                                             showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                content: Mini(),
+                                                content: Mini(
+                                                  cubit: cubit,
+                                                  isPass: true,
+                                                ),
                                               ),
                                             );
                                           },

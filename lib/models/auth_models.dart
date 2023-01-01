@@ -6,8 +6,15 @@ class AuthModels {
   final String? phone;
   final String? nationalId;
   final String? userId;
+  final String? image;
 
-  AuthModels({this.name, this.email, this.phone, this.nationalId, this.userId});
+  AuthModels(
+      {this.name,
+      this.email,
+      this.phone,
+      this.nationalId,
+      this.userId,
+      this.image});
 
   Map<String, dynamic> toJson() {
     return {
@@ -16,15 +23,18 @@ class AuthModels {
       Constants.phoneNumber: phone,
       Constants.nationalId: nationalId,
       Constants.uid: userId,
+      Constants.userImage: image
     };
   }
 
   factory AuthModels.fromJson(Map<String, dynamic> map) {
     return AuthModels(
-        name: map[Constants.name],
-        email: map[Constants.email],
-        phone: map[Constants.phoneNumber],
-        nationalId: map[Constants.nationalId],
-        userId: map[Constants.uid]);
+      name: map[Constants.name],
+      email: map[Constants.email],
+      phone: map[Constants.phoneNumber],
+      nationalId: map[Constants.nationalId],
+      userId: map[Constants.uid],
+      image: map[Constants.userImage],
+    );
   }
 }

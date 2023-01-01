@@ -108,8 +108,8 @@ class _ComplainsScreenState extends State<ComplainsScreen> {
                             (value) async {
                               final ref = FirebaseStorage.instance
                                   .ref()
-                                  .child(Constants.image)
-                                  .child(imageId + Constants.image);
+                                  .child(Constants.complainsimage)
+                                  .child(imageId + Constants.complainsimage);
                               await ref.putFile(_selectedImage!).whenComplete(
                                 () async {
                                   imageUrl = await ref.getDownloadURL();

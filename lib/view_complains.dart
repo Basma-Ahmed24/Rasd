@@ -97,8 +97,8 @@ class ViewComplaints extends StatelessWidget {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                                 child: Image.network(
-                                                  complainsData[index]
-                                                      [Constants.image],
+                                                  complainsData[index][
+                                                      Constants.complainsimage],
                                                   width: 200,
                                                   height: 150,
                                                   fit: BoxFit.cover,
