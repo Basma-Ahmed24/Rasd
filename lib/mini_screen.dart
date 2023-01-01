@@ -45,8 +45,6 @@ Widget mini(
       ),
       ElevatedButton(
         onPressed: () async {
-          print('object');
-          print(newname);
           if (isName!) {
             await cubit!.addUserInfo(
               context,

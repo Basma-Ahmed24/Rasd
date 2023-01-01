@@ -67,15 +67,17 @@ class UserCubit extends Cubit<UserStatus> {
       if (isUpdatePhoto!) {
         await FirebaseFirestore.instance
             .collection(Constants.user)
-            .doc(userId)
+            .doc(FirebaseAuth.instance.currentUser!.uid)
             .update({Constants.userImage: user.image});
       }
       if (isUpdateName!) {
         print('name is ${user.name}');
         await FirebaseFirestore.instance
             .collection(Constants.user)
-            .doc(userId)
-            .update({Constants.name: user.name});
+            .doc(FirebaseAuth.instance.currentUser!.uid)
+            .update(
+          {Constants.name: user.name},
+        );
       }
       if (isUpdatePassword! &&
           newPassword!.isNotEmpty &&

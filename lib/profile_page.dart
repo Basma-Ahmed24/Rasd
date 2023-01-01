@@ -265,16 +265,16 @@ class _ProfileState extends State<Profile> {
                                             IconButton(
                                               onPressed: () {
                                                 showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                    content: mini(
-                                                      context,
-                                                      cubit,
-                                                      isName: true,
-                                                    ),
-                                                  ),
-                                                );
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        content: mini(
+                                                          context,
+                                                          cubit,
+                                                          isName: true,
+                                                        ),
+                                                      );
+                                                    });
                                               },
                                               icon: const Icon(
                                                 Icons.edit,
