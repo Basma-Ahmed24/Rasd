@@ -65,13 +65,13 @@ class UserCubit extends Cubit<UserStatus> {
   }) async {
     try {
       if (isUpdatePhoto!) {
-        print(user.image);
         await FirebaseFirestore.instance
             .collection(Constants.user)
             .doc(userId)
             .update({Constants.userImage: user.image});
       }
       if (isUpdateName!) {
+        print('name is ${user.name}');
         await FirebaseFirestore.instance
             .collection(Constants.user)
             .doc(userId)

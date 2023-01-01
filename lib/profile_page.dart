@@ -40,7 +40,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildProfileImage(UserCubit cubit, String imageurl) {
-    print('imageUrl is $imageurl');
+    // print('imageUrl is $imageurl');
     return Center(
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -111,7 +111,7 @@ class _ProfileState extends State<Profile> {
                   );
                 },
               ).whenComplete(() {
-                print('new image is $newImage');
+                // print('new image is $newImage');
 
                 cubit.addUserInfo(context, AuthModels(image: newImage),
                     isUpdatePhoto: true);
@@ -268,8 +268,9 @@ class _ProfileState extends State<Profile> {
                                                   context: context,
                                                   builder: (context) =>
                                                       AlertDialog(
-                                                    content: Mini(
-                                                      cubit: cubit,
+                                                    content: mini(
+                                                      context,
+                                                      cubit,
                                                       isName: true,
                                                     ),
                                                   ),
@@ -319,10 +320,8 @@ class _ProfileState extends State<Profile> {
                                             showDialog(
                                               context: context,
                                               builder: (context) => AlertDialog(
-                                                content: Mini(
-                                                  cubit: cubit,
-                                                  isPass: true,
-                                                ),
+                                                content: mini(context, cubit,
+                                                    isPass: true),
                                               ),
                                             );
                                           },
