@@ -32,8 +32,8 @@ Widget ComplaintCard(lst,context,id)=>
               ? Container(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height/3,
-            child: Image.network("http://18.197.86.8/image/fetch_image?file_path= ${lst[id]["complaint_img_link"]}"),
-
+            child: CachedNetworkImage(imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${lst[id]["complaint_img_link"]}"
+            )
           )
               : Container(
 

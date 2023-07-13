@@ -11,7 +11,9 @@ class SignUpModel {
       String? mobileNumber, 
       String? address, 
       String? passHash, 
-      num? isAdmin,}){
+      num? isAdmin,
+    String?profile_img,
+  String?id_back_img}){
     _googleId = googleId;
     _fname = fname;
     _lname = lname;
@@ -21,6 +23,8 @@ class SignUpModel {
     _address = address;
     _passHash = passHash;
     _isAdmin = isAdmin;
+    _id_back_img= id_back_img;
+    _profile_img=profile_img;
 }
 
   SignUpModel.fromJson(dynamic json) {
@@ -33,6 +37,8 @@ class SignUpModel {
     _address = json['address'];
     _passHash = json['pass_hash'];
     _isAdmin = json['is_admin'];
+    _id_back_img=json["id_card_img"];
+    _profile_img=json["profile_img"];
   }
   String? _googleId;
   String? _fname;
@@ -43,6 +49,8 @@ class SignUpModel {
   String? _address;
   String? _passHash;
   num? _isAdmin;
+  String? _id_back_img;
+  String?_profile_img;
 SignUpModel copyWith({  String? googleId,
   String? fname,
   String? lname,
@@ -52,6 +60,8 @@ SignUpModel copyWith({  String? googleId,
   String? address,
   String? passHash,
   num? isAdmin,
+  String?id_back_img,
+  String?profile_img
 }) => SignUpModel(  googleId: googleId ?? _googleId,
   fname: fname ?? _fname,
   lname: lname ?? _lname,
@@ -61,6 +71,8 @@ SignUpModel copyWith({  String? googleId,
   address: address ?? _address,
   passHash: passHash ?? _passHash,
   isAdmin: isAdmin ?? _isAdmin,
+    id_back_img:id_back_img?? _id_back_img,
+    profile_img: profile_img??_profile_img
 );
   String? get googleId => _googleId;
   String? get fname => _fname;
@@ -71,7 +83,8 @@ SignUpModel copyWith({  String? googleId,
   String? get address => _address;
   String? get passHash => _passHash;
   num? get isAdmin => _isAdmin;
-
+  String? get id_back_img =>_id_back_img;
+String?get profile_img=>_profile_img;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['google_id'] = _googleId;
@@ -83,6 +96,8 @@ SignUpModel copyWith({  String? googleId,
     map['address'] = _address;
     map['pass_hash'] = _passHash;
     map['is_admin'] = _isAdmin;
+    map["id_back_img"]=_id_back_img;
+    map["profile_img"]=_profile_img;
     return map;
   }
 

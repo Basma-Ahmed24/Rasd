@@ -21,7 +21,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   NewsScreen(),
     ProjectScreen(),
     ReportScreen(),
-    ComplainsScreen(4)
+    ComplainsScreen()
 
   ];
 

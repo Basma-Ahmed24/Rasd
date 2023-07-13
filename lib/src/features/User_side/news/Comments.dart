@@ -29,7 +29,7 @@ class Comments extends StatelessWidget{
               if (state is projnewsLoaded) {
 
                 data = ProjNewsCubit.get(context).comments;
-
+date();
                 print(data);return Scaffold(
                   backgroundColor: Primary,
                   body:
@@ -49,13 +49,14 @@ class Comments extends StatelessWidget{
 
                     )
 
-                    ),data!=null? ConditionalBuilder(
+                    ), ConditionalBuilder(
                         condition: state is! projnewsLoading,
-                        builder: (context) =>Expanded(
+                        builder: (context) =>data!=null?Expanded(
                           child: ListView.separated(
                      itemBuilder: (context, index) => Card(
                       color: Colors.white,
-                      child: Column(
+                      child: 
+                      Column(
                         children:[ Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
@@ -79,6 +80,7 @@ class Comments extends StatelessWidget{
                               ),
                             ],
                         ),
+                          data[index]["comment_body"]!=null?
                           Text(
                             "${data[index]["comment_body"]}",
                             style: TextStyle(
@@ -87,7 +89,7 @@ class Comments extends StatelessWidget{
                               color: Colors.black45,
                               fontFamily: "Montserrat",
                             ),
-                          ),  ] ),
+                          ):Text("no comments") ] ),
                     ),
 
 
@@ -96,23 +98,10 @@ class Comments extends StatelessWidget{
                             itemCount:
                            data.length,
                           ),
-                        ),
+                        ):Column(children:[SizedBox(height: MediaQuery.of(context).size.height/4,), Image.asset("assets/images/no-data.png")]),
                         fallback: (context) =>
-                            Center(child: CircularProgressIndicator())):Center(
-                      child: Container(height: MediaQuery.of(context).size.height,width:
-                      MediaQuery.of(context).size.width,color: Colors.white,child: Center(
-                        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-                            children:[ Text("No Comments Yet! ",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 25,
-                                  color: green,
-                                  fontFamily: "Montserrat",
-                                )),
-                            ]  ),
-                      ),),
-                    ), ],)),
+                            Center(child: CircularProgressIndicator()))
+                    ],)),
                 );
               }else if (state is projnewsError&&state.errorMessage.contains("404")) {
                 return Center(child:
@@ -121,5 +110,11 @@ class Comments extends StatelessWidget{
                   Text("Oops!,there are some issues occur, we are working on it .",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],)),);
               }else{return Container(height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,color: Colors.white,child:
               Column(children: [Image.asset("assets/images/WhatsApp Image 2023-06-22 at 17.32.19.jpg",height: MediaQuery.of(context).size.height/2,width: MediaQuery.of(context).size.width,),
-                Text("No Internet, Please Open Your Network and Re Open the App",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],));}}));}
+                Text("No Internet, Please Open Your Network and Re Open the App",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],));}}));
+  }void date(){
+    if(data!=null){
+    for(int i=0;i<data.length;i++){
+      data[i]["date_time"]=data[i]["date_time"].substring(0,10);
+    }
+  }}
 }

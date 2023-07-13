@@ -29,7 +29,7 @@ Widget mini(
           'Change Info',
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 18,
             fontWeight: FontWeight.w700,
             color: Colors.black54,
           ),
@@ -69,12 +69,11 @@ Widget mini(
             Navigator.pop(context);
           },
           style: ButtonStyle(
-              padding: MaterialStateProperty.all(
-                  EdgeInsets.fromLTRB(100, 10, 100, 10)),
+
               backgroundColor: MaterialStateProperty.all(green)),
           child:  Text(
             '${AppLocalizations.of(context)?.translate("change")}',
-            style: TextStyle(color: Colors.white, fontSize:20 ),
+            style: TextStyle(color: Colors.white, fontSize:18 ),
           ),
         ),
       ],

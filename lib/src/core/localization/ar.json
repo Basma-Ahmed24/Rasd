@@ -75,6 +75,10 @@
   "latestprojects": "اخر المشاريع",
   "district": "الحي التابع",
   "organization": "جهة التنفيذ",
-  "budget": "الميزانية"
+  "budget": "الميزانية",
+  "takeImage": "اختر صورة",
+  "gallary": "اختر من المعرض",
+  "camera": "التقطت صورة",
+  "cancel": "تم"
 
 }

@@ -6,6 +6,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rasd_app/src/core/utils/constants.dart';
 
+import '../../../core/localization/language_localization.dart';
+
 class ImagePickerDialog extends StatelessWidget {
   final ValueChanged<String> onImageSelected;
 
@@ -39,13 +41,13 @@ class ImagePickerDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(backgroundColor: Primary,
-      title: Text('Select an image'),
+      title: Text('${AppLocalizations.of(context)?.translate("takeImage")}'),
       actions: [
         TextButton(
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('Cancel',style: TextStyle(color:Colors.black54),),
+          child: Text('${AppLocalizations.of(context)?.translate("cancel")}',style: TextStyle(color:Colors.black54),),
         ),
       ],
       content: SingleChildScrollView(
@@ -56,7 +58,7 @@ class ImagePickerDialog extends StatelessWidget {
               onPressed: () {
                 _showPicker(context);
               },
-              child: Text('Select from gallery',style: TextStyle(color:Colors.white)),
+              child: Text('${AppLocalizations.of(context)?.translate("gallary")}',style: TextStyle(color:Colors.white)),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -69,7 +71,7 @@ class ImagePickerDialog extends StatelessWidget {
               onPressed: () {
                 _showPickercamira(context);
               },
-              child: Text('Take a picture',style: TextStyle(color:Colors.white)),
+              child: Text('${AppLocalizations.of(context)?.translate("camera")}',style: TextStyle(color:Colors.white)),
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),

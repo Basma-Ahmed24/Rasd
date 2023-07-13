@@ -156,7 +156,7 @@ class _SignUpState extends State<SignUp> {
                                   .height / 40,
                             ),
                             Row(children: [
-                              InkWell( onTap:(){ _pickImage(context);} ,
+                              InkWell( onTap:(){ _pickImage1(context);} ,
                                 child: Container(width: MediaQuery
                                     .of(context)
                                     .size
@@ -169,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                                             fontSize: 13,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "Montserrat"),),
-                                      done==false?
+                                      done1==false?
                                       Icon(Icons.add_a_photo, size: 50,
                                         color: Colors.black26,): Icon(Icons.done, size: 50,
                                         color: Colors.green,)
@@ -180,7 +180,7 @@ class _SignUpState extends State<SignUp> {
                                   .of(context)
                                   .size
                                   .width / 13,),
-                           GestureDetector( onTap:()=> _pickImage(context),
+                           GestureDetector( onTap:()=> _pickImage2(context),
                                 child: Container(width: MediaQuery
                                     .of(context)
                                     .size
@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> {
                                             fontSize: 13,
                                             fontWeight: FontWeight.w400,
                                             fontFamily: "Montserrat"),),
-                                      done==false?
+                                      done2==false?
                                       Icon(Icons.add_a_photo, size: 50,
                                         color: Colors.black26,): Icon(Icons.done, size: 50,
                                         color: Colors.green,)
@@ -322,21 +322,28 @@ class _SignUpState extends State<SignUp> {
             }));
   }
 
-  void _onSignUpPressed(BuildContext context) {
+  Future<void> _onSignUpPressed(BuildContext context) async {
+    final cubit=context.read<SignUpCubit>();
+  await cubit.uploadImage(_imagePath1!);
+  String img1=cubit.path1;
+    await cubit.uploadImage(_imagePath2!);
+    String img2=cubit.path1;
     if (formkey.currentState!.validate()) {
       final signUpModel = SignUpModel(
         googleId: nationalIdController.text,
         fname: firstnamecontroller.text,
         lname: lastnamecontroller.text,
-        idCardImg: _imagePath,
+        idCardImg: img1,
+        id_back_img: img2,
         email: 'No Email Added',
         mobileNumber: phonecontroller.text,
         address: addersscontroller.text,
         passHash: passwordcontroller.text,
+        profile_img: null,
         isAdmin: 0
       );
       CacheHelper.savedata(key: "apiToken", value: nationalIdController.text,);
-      context.read<SignUpCubit>().signUp(signUpModel);
+      cubit.signUp(signUpModel);
     }
   }
 
@@ -498,12 +505,16 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  String? _imagePath;
+  String? _imagePath1;
+  String? _imagePath2;
 
-bool done=false;
 
-  Future<void> _pickImage(BuildContext context) async {
-    final result = await showDialog<String>(
+  bool done1=false;
+  bool done2=false;
+
+
+  Future<void> _pickImage1(BuildContext context) async {
+    final result1 = await showDialog<String>(
       context: context,
       builder: (BuildContext context) {
         return ImagePickerDialog(
@@ -514,10 +525,31 @@ bool done=false;
       },
     );
 
-    if (result != null) {
-      _imagePath = result;
+    if (result1 != null) {
+      _imagePath1 = result1;
       setState(() {
-        done=true;
+        done1 = true;
+      });
+    }
+  }
+  Future<void> _pickImage2(BuildContext context) async {
+
+    final result2 = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return ImagePickerDialog(
+          onImageSelected: (path) {
+            Navigator.of(context).pop(path);
+          },
+        );
+      },
+    );
+
+
+    if (result2 != null) {
+      _imagePath2 = result2;
+      setState(() {
+        done2=true;
       });
 
     }

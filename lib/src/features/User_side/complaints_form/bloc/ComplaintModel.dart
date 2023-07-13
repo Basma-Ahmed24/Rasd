@@ -1,6 +1,4 @@
 
-import 'package:dio/dio.dart';
-
 class ComplaintModel {
   ComplaintModel({
       this.userId,

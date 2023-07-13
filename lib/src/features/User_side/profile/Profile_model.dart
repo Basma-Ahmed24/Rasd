@@ -7,6 +7,7 @@ class ProfileModel {
     this.mobileNumber,
     this.address,
     this.isAdmin,
+    this.profile_img
   });
 
   ProfileModel.fromJson(dynamic json) {
@@ -16,7 +17,8 @@ class ProfileModel {
     email = json['email'];
     mobileNumber = json['mobile_number'];
     address = json['address'];
-    isAdmin = int.parse(json['is_admin']); // Updated line
+    isAdmin = int.parse(json['is_admin']);
+    profile_img=json["profile_img"];// Updated line
   }
 
   String? fname;
@@ -26,7 +28,7 @@ class ProfileModel {
   String? mobileNumber;
   String? address;
   int? isAdmin;
-
+  String?profile_img;
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['fname'] = fname;
@@ -36,6 +38,7 @@ class ProfileModel {
     map['mobile_number'] = mobileNumber;
     map['address'] = address;
     map['is_admin'] = isAdmin;
+    map["profile_img"]=profile_img;
     return map;
   }
 }

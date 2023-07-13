@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,14 +11,17 @@ class ProjectDetails extends StatelessWidget{
   @override
   int? id ;
   var data;
+
   ProjectDetails(int id){
     this.id=id;
   }
   Widget build(BuildContext context) {
     // TODO: implement build
+    final currentlang=Localizations.localeOf(context);
+
     return BlocProvider(
         create: (BuildContext context) =>
-        ProjNewsCubit()..getProjrctDataWithId(id!),
+        ProjNewsCubit()..getProjrctDataWithId(id!,currentlang.languageCode),
         child: BlocConsumer<ProjNewsCubit, ProjNewsState>(
         listener: (context, state) {},
     builder: (context, state) {
@@ -34,9 +38,12 @@ class ProjectDetails extends StatelessWidget{
         SizedBox(height: MediaQuery.of(context).size.height/15,),
         Row(children:[ IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back_ios_sharp))]),
 
-        Center(child: Image.asset("assets/images/Rectangle 25.png")),
+        Center(child: Container(width:MediaQuery.of(context).size.width/1.5,height: MediaQuery.of(context).size.height/3,
+          child:data[0]["img"]!=null? CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${data[0]["img"]}"
+          ):Image.asset("assets/images/Rectangle 25.png"),
+        )),
         SizedBox(height: MediaQuery.of(context).size.height/30,),
-        Text(data[0]['title'],textAlign: TextAlign.center,
+        data[0]['title']!=null? Text(data[0]['title'],textAlign: TextAlign.center,
 
             style: TextStyle(
 
@@ -48,7 +55,7 @@ class ProjectDetails extends StatelessWidget{
 
               fontFamily: "Montserrat",
 
-            )),
+            )):Text("No title added"),
         SizedBox(height: MediaQuery.of(context).size.height/40,),
 
         Row(mainAxisAlignment: MainAxisAlignment.spaceAround,children:
@@ -134,60 +141,87 @@ class ProjectDetails extends StatelessWidget{
                   fontFamily: "Montserrat",
 
                 )) ,
-       // SizedBox(height: MediaQuery.of(context).size.height/40,),
-        // Text("${AppLocalizations.of(context)?.translate("organization")}", style: TextStyle(
-        //
-        //   fontWeight: FontWeight.w700,
-        //
-        //   fontSize: 18,
-        //
-        //   color: green,
-        //
-        //   fontFamily: "Montserrat",
-        //
-        // )
-        //
-        // ),
-        // Text(data[0]['organization'],textAlign: TextAlign.center,
-        //
-        //     style: TextStyle(
-        //
-        //       fontWeight: FontWeight.w700,
-        //
-        //       fontSize: 18,
-        //
-        //       color: Colors.black45,
-        //
-        //       fontFamily: "Montserrat",
-        //
-        //     )) ,
-        // SizedBox(height: MediaQuery.of(context).size.height/40,),
-        // Text("${AppLocalizations.of(context)?.translate("budget")}", style: TextStyle(
-        //
-        //   fontWeight: FontWeight.w700,
-        //
-        //   fontSize: 18,
-        //
-        //   color: green,
-        //
-        //   fontFamily: "Montserrat",
-        //
-        // )
-        //
-        // ),
-        // Text(data[0]['proj_budget'],textAlign: TextAlign.center,
-        //
-        //     style: TextStyle(
-        //
-        //       fontWeight: FontWeight.w700,
-        //
-        //       fontSize: 18,
-        //
-        //       color: Colors.black45,
-        //
-        //       fontFamily: "Montserrat",
-        //
-        //     )) ,
+        SizedBox(height: MediaQuery.of(context).size.height/40,),
+        Text("${AppLocalizations.of(context)?.translate("district")}", style: TextStyle(
+
+          fontWeight: FontWeight.w700,
+
+          fontSize: 18,
+
+          color: green,
+
+          fontFamily: "Montserrat",
+
+        )
+
+        ),
+        data[0]['district_string']!=null?    Text(data[0]['district_string'],textAlign: TextAlign.center,
+
+            style: TextStyle(
+
+              fontWeight: FontWeight.w700,
+
+              fontSize: 18,
+
+              color: Colors.black45,
+
+              fontFamily: "Montserrat",
+
+            )) :Text("No District added"),
+       SizedBox(height: MediaQuery.of(context).size.height/40,),
+        Text("${AppLocalizations.of(context)?.translate("organization")}", style: TextStyle(
+
+          fontWeight: FontWeight.w700,
+
+          fontSize: 18,
+
+          color: green,
+
+          fontFamily: "Montserrat",
+
+        )
+
+        ),data[0]['organization']!=null?
+        Text(data[0]['organization'],textAlign: TextAlign.center,
+
+            style: TextStyle(
+
+              fontWeight: FontWeight.w700,
+
+              fontSize: 18,
+
+              color: Colors.black45,
+
+              fontFamily: "Montserrat",
+
+            )):Text("No Organization Added") ,
+        SizedBox(height: MediaQuery.of(context).size.height/40,),
+        Text("${AppLocalizations.of(context)?.translate("budget")}", style: TextStyle(
+
+          fontWeight: FontWeight.w700,
+
+          fontSize: 18,
+
+          color: green,
+
+          fontFamily: "Montserrat",
+
+        )
+
+        ),data[0]['proj_budget']!=null?
+        Text("${data[0]['proj_budget']}",textAlign: TextAlign.center,
+
+            style: TextStyle(
+
+              fontWeight: FontWeight.w700,
+
+              fontSize: 18,
+
+              color: Colors.black45,
+
+              fontFamily: "Montserrat",
+
+            )):Text("0") ,
         SizedBox(height: MediaQuery.of(context).size.height/40,),
 
         Text("${AppLocalizations.of(context)?.translate("describe")}", style: TextStyle(
@@ -202,7 +236,7 @@ class ProjectDetails extends StatelessWidget{
 
         )
 
-        ),
+        ),data[0]['description']!=null?
         Text(data[0]['description'],textAlign: TextAlign.center,
 
             style: TextStyle(
@@ -215,7 +249,7 @@ class ProjectDetails extends StatelessWidget{
 
               fontFamily: "Montserrat",
 
-            )) ,
+            )):Text("No description") ,
       ],))),
     );
   }else if (state is projnewsError&&state.errorMessage.contains("404")) {

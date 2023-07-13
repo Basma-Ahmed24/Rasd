@@ -11,7 +11,6 @@ import 'package:rasd_app/src/core/localization/bloc.dart';
 import 'package:rasd_app/src/core/localization/language_event.dart';
 import 'package:rasd_app/src/core/localization/language_localization.dart';
 import 'package:rasd_app/src/core/localization/language_state.dart';
-import 'package:rasd_app/src/core/localization/localization_constant.dart';
 import 'package:rasd_app/src/core/network/api_service.dart';
 import 'package:rasd_app/src/core/network/observer_bloc.dart';
 import 'package:rasd_app/src/core/network/shared_preferences.dart';

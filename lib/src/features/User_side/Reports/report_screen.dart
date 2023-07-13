@@ -30,7 +30,7 @@ var list1;
                 list1 = ComplaintCubit
                     .get(context)
                     .data;
-
+function();
                 print(list1);
                 return Scaffold(
                     backgroundColor: Primary,
@@ -151,12 +151,12 @@ var list1;
                                 child: Center(child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [list1.length>1?
-                                    Text("${list1[1]["count"]} ${AppLocalizations.of(context)
+                                  children: [pending!=0?
+                                    Text("${pending} ${AppLocalizations.of(context)
                                         ?.translate("pending")}",
                                       style: TextStyle(fontSize: 18,
                                           fontWeight: FontWeight.w600,
-                                          fontFamily: "Montserrat"),):Text("0 ${AppLocalizations.of(context)
+                                          fontFamily: "Montserrat"),):Text("${pending} ${AppLocalizations.of(context)
                                       ?.translate("pending")}",
                                     style: TextStyle(fontSize: 18,
                                         fontWeight: FontWeight.w600,
@@ -170,16 +170,16 @@ var list1;
                                   .size
                                   .height / 15,
                             ),
-                            Row(children: [SizedBox(width: 15,),list1.length>1? Text(
+                            Row(children: [SizedBox(width: 15,),pending!=0? Text(
                                 "${AppLocalizations.of(context)?.translate(
-                                    "progress")} ${list1[1]["count"]}%", style: TextStyle(
+                                    "progress")} ${pending}%", style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: "Montserrat",
                                 fontWeight: FontWeight.w600
                             )):Text(
                                 "${AppLocalizations.of(context)?.translate(
-                                    "progress")} 0%", style: TextStyle(
+                                    "progress")} ${pending}%", style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: "Montserrat",
@@ -188,22 +188,22 @@ var list1;
                             ]),
                             SizedBox(height: 10,),
                             LinearPercentIndicator(progressColor: green,
-                              percent: list1.length>1? (list1[1]["count"])/100:0.0,
+                              percent: pending!=0? (pending)/(ComplaintCubit.get(context).totalComplaint).toDouble():0.0,
                               lineHeight: 15,
                               barRadius: Radius.circular(10),
                               backgroundColor: Colors.white,),
                             SizedBox(height: 10,),
                             Row(crossAxisAlignment: CrossAxisAlignment.end,
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: [SizedBox(width: 15,), list1.length==3 ?Text(
-                                    "${list1[2]["count"]}${AppLocalizations.of(context)?.translate(
+                                children: [SizedBox(width: 15,), completed!=0 ?Text(
+                                    "${completed}${AppLocalizations.of(context)?.translate(
                                         "complete")}", style: TextStyle(
                                     color: green,
                                     fontSize: 16,
                                     fontFamily: "Montserrat",
                                     fontWeight: FontWeight.w400
                                 )):Text(
-                                    "0 ${AppLocalizations.of(context)?.translate(
+                                    "${completed} ${AppLocalizations.of(context)?.translate(
                                         "complete")}", style: TextStyle(
                                     color: green,
                                     fontSize: 16,
@@ -241,4 +241,15 @@ var list1;
                 ],)),);
               } else{return Container(height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,color: Colors.white,child:
               Column(children: [Image.asset("assets/images/WhatsApp Image 2023-06-22 at 17.32.19.jpg",height: MediaQuery.of(context).size.height/2,width: MediaQuery.of(context).size.width,),
-                Text("No Internet, Please Open Your Network and Re Open the App",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],));}}));}}
+                Text("No Internet, Please Open Your Network and Re Open the App",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],));}}));}
+int pending=0;
+int completed=0;
+void function(){
+  for(int i=0;i<list1.length;i++){
+    if (list1[i]["status"]=="completed")
+      completed=list1[i]["count"];
+    else if(list1[i]["status"]=="pending")
+      pending=list1[i]["count"];
+  }
+
+}}

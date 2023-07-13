@@ -48,71 +48,6 @@ class ComplaintCubit extends Cubit<ComplaintState> {
     }
   }
 
-  Future<void> uploadImage(String image) async {
-    emit(const ComplaintState(isLoading: true));
-    try {
-      final file = await MultipartFile.fromFile(image);
-      final formData = FormData.fromMap({'photos': file});
-      final response = await DioHelper.postData(
-        endpoint: 'image/upload_image',
-        data: formData,
-      );
-
-      final responseData = json.decode(response.data);
-
-      if (responseData != null && responseData.length > 0) {
-        emit(ComplaintState(isLoading: false, isSuccess: true));
-        path1 = responseData[0]['path'].toString();
-        print(response.data);
-        debugPrint('Image uploaded successfully');
-      } else {
-        emit(ComplaintState(
-          isLoading: false,
-          isSuccess: false,
-          errorMessage: responseData.toString(),
-        ));
-      }
-
-    } catch (e) {
-      emit(ComplaintState(
-        isLoading: false,
-        isSuccess: false,
-        errorMessage: e.toString(),
-      ));
-      debugPrint('Error uploading image: $e');
-    }
-  }
-  Future<String?> fetchImage(String image) async {
-    emit(const ComplaintState(isLoading: true));
-    try {
-      final response = await DioHelper.getData(
-        endpoint: 'image/fetch_image',
-        queryParams: {"file_path": image},
-        token: CacheHelper.getData(key: "apiToken"),
-      );
-
-
-      print(response.data);
-      path = response.data;
-
-      if (response.data is String) {
-        emit(ComplaintState(isLoading: false, isSuccess: true));
-return path;
-      } else {
-        emit(ComplaintState(
-          isLoading: false,
-          isSuccess: false,
-          errorMessage: response.toString(),
-        ));
-      }
-    } catch (e) {
-      emit(ComplaintState(
-        isLoading: false,
-        isSuccess: false,
-        errorMessage: e.toString(),
-      ));
-    }
-  }
   Future<void> getComplaintsCount() async {
     try {
       emit(const ComplaintState(isLoading: true));
@@ -142,4 +77,40 @@ return path;
       ));      print(e.toString());
     }
   }
+  Future<void> uploadImage(String image) async {
+    emit(const ComplaintState(isLoading: true));
+    try {
+      final file = await MultipartFile.fromFile(image);
+      final formData = FormData.fromMap({'photos': file});
+      final response = await DioHelper.postData(
+        endpoint: 'image/upload_image',
+        data: formData,
+      );
+
+      final responseData = json.decode(response.data);
+
+      if (responseData != null && responseData.length > 0) {
+        emit(ComplaintState(isLoading: false, isSuccess: true));
+        path1 = responseData[0]['path'].toString();
+        print(response.data);
+        print(path1);
+        debugPrint('Image uploaded successfully');
+      } else {
+        emit(ComplaintState(
+          isLoading: false,
+          isSuccess: false,
+          errorMessage: responseData.toString(),
+        ));
+      }
+
+    } catch (e) {
+      emit(ComplaintState(
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
+      debugPrint('Error uploading image: $e');
+    }
+  }
+
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -20,12 +21,14 @@ class HomeScreen extends StatelessWidget {
   int _i = 0;
   Widget build(BuildContext context) {
     // TODO: implement build
+    final currentlang=Localizations.localeOf(context);
+
     return BlocProvider(
       create: (BuildContext context) {
         final cubit = UserCubit();
         cubit.getUserData(CacheHelper.getData(key: "apiToken"));
-        cubit.getNewsData(); // Call another function here
-        cubit.getProjrctData(); // Call yet another function here
+        cubit.getNewsData(currentlang.languageCode); // Call another function here
+        cubit.getProjrctData(currentlang.languageCode); // Call yet another function here
         return cubit;
       },
 
@@ -46,7 +49,6 @@ class HomeScreen extends StatelessWidget {
     n=UserCubit.get(context).n;
    UserCubit.get(context).func1();
    UserCubit.get(context).func2();
-
     return Scaffold(
                     key: scaffoldkey,
                     drawer: Navdrawer(),
@@ -102,7 +104,7 @@ class HomeScreen extends StatelessWidget {
                           _i=2;
                       },
                       icon: Icon(Icons.arrow_back_ios_sharp)),
-                  InkWell(onTap: (){if(_i==0 ){ navigateto(context, ComplainsScreen(0));} else if(_i==1)navigateto(context, ComplainsScreen(1));else if(_i==2) navigateto(context, ComplainsScreen(2));},
+                  InkWell(onTap: (){if(_i==0 ){ navigateto(context, ComplainsScreen());} else if(_i==1)navigateto(context, ComplainsScreen());else if(_i==2) navigateto(context, ComplainsScreen());},
                     child: Container(
                         constraints: BoxConstraints.expand(
                             height: MediaQuery.of(context).size.height / 4.2,
@@ -200,7 +202,7 @@ class HomeScreen extends StatelessWidget {
 
                       fontWeight: FontWeight.w700,
 
-                      fontSize: 18,
+                      fontSize: 16,
 
                       color: Colors.black45,
 
@@ -219,7 +221,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -230,8 +232,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ]  ),
 
-
-              Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 18 (1).png"))),
+              Flexible(
+                child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-1]["img"]}"
+                ))),
+              ),
             ],
           ),),
         ),
@@ -276,7 +280,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -295,7 +299,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -305,15 +309,16 @@ class HomeScreen extends StatelessWidget {
 
                     ),
                   ]  ),
-
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 18 (1).png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child:CachedNetworkImage(imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-1]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
         ),
         Divider(height: 10),
-        InkWell(onTap: (){        navigateto(context, NewsDetails(n[n.length-2]['proj_news_id']));
+        InkWell(onTap: (){navigateto(context, NewsDetails(n[n.length-2]['proj_news_id']));
         },
           child: Container(width: MediaQuery.of(context).size.width/1.1,
             child:   Card(color: Primary,elevation: 5,child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment:
@@ -329,7 +334,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -348,7 +353,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -359,8 +364,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ]  ),
 
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 18 (1).png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-2]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -406,7 +413,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -425,7 +432,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -436,8 +443,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ]  ),
 
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 18 (1).png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-1]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -459,7 +468,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -478,7 +487,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -488,9 +497,10 @@ class HomeScreen extends StatelessWidget {
 
                     ),
                   ]  ),
-
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 18 (1).png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-2]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -512,7 +522,7 @@ class HomeScreen extends StatelessWidget {
 
       fontWeight: FontWeight.w700,
 
-      fontSize: 18,
+      fontSize: 16,
 
       color: Colors.black45,
 
@@ -531,7 +541,7 @@ class HomeScreen extends StatelessWidget {
 
       fontWeight: FontWeight.w700,
 
-      fontSize: 18,
+      fontSize: 16,
 
       color: Colors.black45,
 
@@ -542,10 +552,12 @@ class HomeScreen extends StatelessWidget {
       ),
       ]  ),
 
-
-      Container(width: MediaQuery.of(context).size.width/2,
+        Flexible(
+          child: Container(width: MediaQuery.of(context).size.width/2,
       child: Container(height: 150,width: 150,child:
-      Image.asset("assets/images/Rectangle 18 (1).png"))),
+      CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${n[n.length-3]["img"]}"
+      ))),
+        ),
       ],
       ),),
       ),
@@ -594,7 +606,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -624,9 +636,10 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                   ]  ),
-
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-1]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -671,7 +684,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -690,7 +703,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -702,8 +715,10 @@ class HomeScreen extends StatelessWidget {
 
                   ]  ),
 
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child:  CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-1]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -726,7 +741,7 @@ class HomeScreen extends StatelessWidget {
 
       fontWeight: FontWeight.w700,
 
-      fontSize: 18,
+      fontSize: 16,
 
       color: Colors.black45,
 
@@ -745,7 +760,7 @@ class HomeScreen extends StatelessWidget {
 
       fontWeight: FontWeight.w700,
 
-      fontSize: 18,
+      fontSize: 16,
 
       color: Colors.black45,
 
@@ -757,8 +772,10 @@ class HomeScreen extends StatelessWidget {
 
       ]  ),
 
-
-      Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+        Flexible(
+          child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child:  CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-2]["img"]}"
+      ))),
+        ),
       ],
       ),),
       ),
@@ -802,7 +819,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -821,7 +838,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -833,8 +850,10 @@ class HomeScreen extends StatelessWidget {
 
                   ]  ),
 
-
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-1]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -855,7 +874,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -874,7 +893,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -886,7 +905,10 @@ class HomeScreen extends StatelessWidget {
                   ]  ),
 
 
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child:  CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-2]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),
@@ -894,7 +916,8 @@ class HomeScreen extends StatelessWidget {
         Divider(height: 10),
         InkWell(onTap: (){   navigateto(context, ProjectDetails(p[p.length-3]['proj_news_id']));},
           child: Container(width: MediaQuery.of(context).size.width/1.1,
-            child:   Card(color: Primary,elevation: 5,child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment:
+            child:   Card(color: Primary,elevation: 5,child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,crossAxisAlignment:
             CrossAxisAlignment.center,
               children: [SizedBox(width: 10,), Column(
                   children:[ Text(
@@ -907,7 +930,7 @@ class HomeScreen extends StatelessWidget {
 
                         fontWeight: FontWeight.w700,
 
-                        fontSize: 18,
+                        fontSize: 16,
 
                         color: Colors.black45,
 
@@ -926,7 +949,7 @@ class HomeScreen extends StatelessWidget {
 
                           fontWeight: FontWeight.w700,
 
-                          fontSize: 18,
+                          fontSize: 16,
 
                           color: Colors.black45,
 
@@ -939,7 +962,10 @@ class HomeScreen extends StatelessWidget {
                   ]  ),
 
 
-                Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child: Image.asset("assets/images/Rectangle 25.png"))),
+                Flexible(
+                  child: Container(width: MediaQuery.of(context).size.width/2, child: Container(height: 150,width: 150,child:  CachedNetworkImage(fit: BoxFit.fill,imageUrl: "http://18.197.86.8/image/fetch_image?file_path=${p[p.length-3]["img"]}"
+                  ))),
+                ),
               ],
             ),),
           ),

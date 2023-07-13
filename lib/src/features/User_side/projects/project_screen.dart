@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -17,9 +18,11 @@ var list1;
   int _i = 0;
   Widget build(BuildContext context) {
     // TODO: implement build
+    final currentlang=Localizations.localeOf(context);
+
     return  BlocProvider(
         create: (BuildContext context) =>
-        ProjNewsCubit()..getProjrctData(),
+        ProjNewsCubit()..getProjrctData(currentlang.languageCode),
         child: BlocConsumer<ProjNewsCubit, ProjNewsState>(
         listener: (context, state) {},
     builder: (context, state) {
@@ -93,8 +96,8 @@ var list1;
                 SingleChildScrollView(
                   child: Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height/1.8 ,
-                    child: Stack(
+                    height: MediaQuery.of(context).size.height/1.5 ,
+                    child:list1!=null? Stack(
                         children: [
 
                           detailsSlider(context),
@@ -118,7 +121,7 @@ var list1;
                                   icon: Icon(Icons.arrow_forward_ios_rounded))]
                             ),
                           ),
-                        ]),
+                        ]):Image.asset("assets/images/no-data.png"),
                   ),
                 ),SizedBox(height: MediaQuery.of(context).size.height/30,),
               ]),
@@ -131,18 +134,23 @@ var list1;
     }else{return Container(height: MediaQuery.of(context).size.height,width: MediaQuery.of(context).size.width,color: Colors.white,child:
     Column(children: [Image.asset("assets/images/WhatsApp Image 2023-06-22 at 17.32.19.jpg",height: MediaQuery.of(context).size.height/2,width: MediaQuery.of(context).size.width,),
       Text("No Internet, Please Open Your Network and Re Open the App",style:TextStyle(color: green,fontSize: 25,fontWeight: FontWeight.w700),)],));}}));}
-  Swiper complimantsSlider(context) {
-    return new Swiper(
+  Swiper complimantsSlider(BuildContext context) {
+    return Swiper(
       controller: _controller,
       fade: 0.1,
-      itemCount:  list1.length,
+      itemCount: list1.length,
       scale: 0,
       viewportFraction: 1,
       itemBuilder: (BuildContext context, int index) {
-        return new Image.asset(
-          "assets/images/Rectangle 25.png",
-          fit: BoxFit.fitHeight,
-        );
+        if (list1[index]["img"] != null) {
+          return CachedNetworkImage(
+            fit: BoxFit.fill,
+            imageUrl:
+            "http://18.197.86.8/image/fetch_image?file_path=${list1[index]["img"]}",
+          );
+        } else {
+          return Image.asset("assets/images/Rectangle 25.png");
+        }
       },
     );
   }
@@ -163,7 +171,8 @@ var list1;
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width / 1.2,
                   height: MediaQuery.of(context).size.height / 2,
-                  child: Container(
+                  child:
+                  Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xffD9D9D9),
@@ -175,14 +184,14 @@ var list1;
                             height: MediaQuery.of(context).size.height / 8,
                           ),
                           Center(
-                            child: Text(
+                            child:list1[index]["title"]!=null? Text(
                               "${list1[index]["title"]}",
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.w600,
                                 fontFamily: "Montserrat",
                               ),
-                            ),
+                            ):Text("No Title"),
                           ),
                           Divider(
                             color: Colors.white,

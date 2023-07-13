@@ -33,7 +33,7 @@ class Complaints extends StatelessWidget {
 
     return BlocProvider(
         create: (BuildContext context) =>
-        ComplaintsCubit()..getComplaintsData(),
+        ComplaintsCubit()..getComplaintsData(currentlang.languageCode),
         child: BlocConsumer<ComplaintsCubit, ComplaintsState>(
             listener: (context, state) {},
             builder: (context, state) {
@@ -42,8 +42,8 @@ class Complaints extends StatelessWidget {
   Center(child: CircularProgressIndicator(color: green,)));}
               if (state is ComplaintLoaded) {
    list1 = ComplaintsCubit.get(context).p;
-//              ComplaintsCubit.get(context).func(list1, currentlang.languageCode);
-// list1=ComplaintsCubit.get(context).t;
+
+                converter();
                 print(list1);
                 return Scaffold(
                     key: scaffoldkey1,
@@ -127,17 +127,11 @@ child: Container(height: MediaQuery.of(context).size.height,width:
 
               ));}
             }));
-  }void _onUploadPressed(BuildContext context,String status,int id) async {
-
-    final complaint = Updatestatus(
-        userId: CacheHelper.getData(key: "apiToken")
-        ,complaintId: id,
-        status: status
-    );
-
-    await context.read<ComplaintsCubit>().updateStatus(complaint);
-
-
   }
+  void converter(){
+    for(int i=0;i<list1.length;i++){
 
+      list1[i]["complaint_date_time"]=list1[i]["complaint_date_time"]?.substring(0,10);
+
+    }}
 }

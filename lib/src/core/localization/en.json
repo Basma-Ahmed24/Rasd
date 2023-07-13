@@ -3,7 +3,7 @@
   "onBoarding3": "Report Violations",
   "Sign_up": "Sign Up",
   "Sign_In": "Sign In",
-  "member": "Already a member?",
+  "member": "Already a member? Sign In",
   "fname": "first name",
   "lname": "Lastname",
   "id": "National Id",
@@ -15,7 +15,7 @@
   "cpass":"confirm password" ,
   "enter": "Enter",
   "fprget": "Forgot your password?",
-  "dont": "Don’t have an account?",
+  "dont": "Don’t have an account? create",
   "create": "Create",
   "hello":"Hello" ,
   "home":"Home" ,
@@ -56,8 +56,8 @@
   "complaints": "Complaints",
   "submitted": "Submitted",
   "done": "Done",
-  "project uploaded": "Project Uploaded",
-  "failerp": "Faild to Upload the Project, try again",
+  "project uploaded": "Uploaded",
+  "failerp": "Faild to Upload the, try again",
   "Newstitle": "News Title",
   "startdate": "Start Date",
   "enddate": "End Date",
@@ -73,7 +73,11 @@
   "latestprojects": "Latest Projects",
   "district": "District Name",
   "organization": "Organization",
-  "budget": "Budget"
+  "budget": "Budget",
+  "takeImage": "Select an image",
+  "gallary": "Select from gallary",
+  "camera": "Take a pickture",
+  "cancel": "Cancel"
 
 
 

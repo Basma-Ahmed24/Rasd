@@ -1,10 +1,6 @@
-
-
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rasd_app/src/core/utils/constants.dart';
-
 import '../../../core/localization/language_localization.dart';
 import '../../../core/network/shared_preferences.dart';
 import '../../Admin_side/home/home_screen.dart';
@@ -20,7 +16,7 @@ class SignIn extends StatefulWidget{
 
 class _SignInState extends State<SignIn> {
   @override
-  String? name, email, phone, password, confirmPass, nationalId;
+  String? name, phone, password, confirmPass, nationalId;
   var formkey = GlobalKey<FormState>();
   bool showPassword = true;
 

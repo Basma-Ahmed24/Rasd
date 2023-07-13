@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
@@ -22,7 +23,7 @@ var list1;
 
     return BlocProvider(
         create: (BuildContext context) =>
-        ProjNewsCubit()..getNewsData(),
+        ProjNewsCubit()..getNewsData(currentlang.languageCode),
         child: BlocConsumer<ProjNewsCubit, ProjNewsState>(
         listener: (context, state) {},
     builder: (context, state) {
@@ -30,12 +31,11 @@ var list1;
         return Scaffold(body:
         Center(child: CircularProgressIndicator(color: green,)));}
     if (state is projnewsLoaded) {
-    list1 = ProjNewsCubit.get(context).p;
-    func();
 
-    ProjNewsCubit.get(context).func(list1,currentlang.languageCode );
+      list1=ProjNewsCubit.get(context).p;
+      func();
 
-    print(list1);
+      print(list1);
     return Scaffold(
         key: scaffoldkey,
         drawer: Navdrawer(),
@@ -101,8 +101,9 @@ var list1;
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height/1.5,
-                      child: Stack(
+                      child:  list1!=null?Stack(
                           children: [
+                           
                             detailsSlider(context),
 
                             Positioned(
@@ -126,11 +127,7 @@ var list1;
                               ),
                             ),
 
-
-
-
-
-                          ]),
+                          ]):Image.asset("assets/images/no-data.png"),
                     ),
                   ),
                 )]),
@@ -151,14 +148,18 @@ var list1;
       itemCount: list1.length,
       scale: 0,
       viewportFraction: 1,
-      itemBuilder: (BuildContext context, int index) {
-        return new Image.asset(
-          "assets/images/Rectangle 18 (1).png",
-          fit: BoxFit.fitHeight,
-        );
-      },
-    );
-  }
+      itemBuilder: (BuildContext context, int index) {if (list1[index]["img"] != null) {
+      return CachedNetworkImage(
+        fit: BoxFit.fill,
+        imageUrl:
+        "http://18.197.86.8/image/fetch_image?file_path=${list1[index]["img"]}",
+      );
+    } else {
+    return Image.asset("assets/images/Rectangle 18 (1).png");
+    }
+  },
+  );
+}
   Swiper detailsSlider(context) {
     return new Swiper(
       controller: _controller,
@@ -187,16 +188,16 @@ var list1;
 
                         ),
                         child: SingleChildScrollView(
-                          child: Column(children: [SizedBox(height: MediaQuery.of(context).size.height/12,),Center(child:Text("${list1[index]['title']}",style: TextStyle(
+                          child: Column(children: [SizedBox(height: MediaQuery.of(context).size.height/12,),Center(child:list1[index]['title']!=null?Text("${list1[index]['title']}",style: TextStyle(
                               fontSize: 24,fontWeight: FontWeight.w600,fontFamily: "Montserrat"
-                          ),)),Center(child:Text("${list1[index]['start_date']}",style: TextStyle(
+                          ),):Text("No title")),Center(child:Text("${list1[index]['start_date']}",style: TextStyle(
                               fontSize: 15,fontWeight: FontWeight.w300,fontFamily: "Montserrat"
                           ),)),Divider(color: Colors.white,endIndent: 34,indent: 34,),SizedBox(height: 10,),Center(child:
                           Container(width:  MediaQuery.of(context).size.width/1.5,height: MediaQuery.of(context).size.height/1.9,
-                            child: Text("${list1[index]['description']}"
+                            child:list1[index]['description']!=null? Text("${list1[index]['description']}"
                               ,textAlign: TextAlign.center,style: TextStyle(color: Color(0xff252525),
                                   fontSize: 15,fontWeight: FontWeight.w400,fontFamily: "Montserrat"
-                              ),),
+                              ),):Text("No description added"),
                           ))],),
                         ),
                       ),
@@ -211,9 +212,10 @@ var list1;
     );
   }
   void func(){
+    if(list1!=null){
     for(int i=0;i<list1.length;i++){
 
       list1[i]["start_date"]=list1[i]["start_date"]?.substring(0,10);
-    }
+    }}
   }
 }

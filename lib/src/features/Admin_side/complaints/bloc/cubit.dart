@@ -14,7 +14,7 @@ class ComplaintsCubit extends Cubit<ComplaintsState> {
   dynamic p,path,t;
 
   static   ComplaintsCubit get(context) => BlocProvider.of(context);
-  Future<void> getComplaintsData() async {
+  Future<void> getComplaintsData(String lang) async {
     try {
       emit(ComplaintLoading());
 
@@ -27,6 +27,7 @@ class ComplaintsCubit extends Cubit<ComplaintsState> {
       final responseData = json.decode(response.data);
       if(!responseData.toString().contains("error"))
       p=responseData;
+      await func(p, lang);
       print(p.toString());
 
       emit(ComplaintLoaded());
@@ -78,65 +79,73 @@ class ComplaintsCubit extends Cubit<ComplaintsState> {
     }
   }
   // Override the default locale with a specific locale
-  dynamic localization(dynamic loc,String lang){
 
 
-      loc=Intl.message(loc,name:'fname',locale:lang);
-
-
-
-    return loc;
-  }
-
-  Future<void> translation(String k1, String k2, String k3, String lang) async {
+  Future<dynamic> translation( String k2, dynamic k3,
+      String lang) async {
     try {
-      emit(ComplaintLoading());
-
       final response = await DioHelper.postData(
         endpoint: "translation/translate_json",
         data: {
           "target_language": lang,
-          "key_1": k1,
           "key_2": k2,
-          "key_3": k3,
+          "key_3": k3
         },
       );
 
       final responseData = json.decode(response.data);
       if (!responseData.toString().contains("error")) {
-        print(responseData.toString());
-        t = responseData.toString();
-        print(t);
-        emit(ComplaintLoaded());
-
+        return TranslationResponse(
+            key2: responseData["key_2"].toString(),
+            key3: responseData["key_3"].toString()
+        );
       } else {
-        emit(ComplaintsError(response.data.toString()));
+        throw Exception(responseData.toString());
       }
     } catch (e) {
-      emit(ComplaintsError(e.toString()));
-      print(e.toString());
+      throw Exception(e.toString());
     }
   }
 
-  void func(dynamic m, String l) {
-    p.forEach((item) {
-      // Update only the "description" and "location" fields
-      if (item.containsKey("description")) {
-        t = translation(item["type"], item["description"], item["location"], l);
-      }
-      if (item.containsKey("location")) {
-        t = translation(item["type"], item["description"], item["location"], l);
-      }
-      if (item.containsKey("type")) {
-        t = translation(item["type"], item["description"], item["location"], l);
-      }
-    });
 
+  Future<void> func(List<dynamic> m, String l) async {
+    List<Future<void>> translationFutures = [];
 
+    for (var item in m) {
+      translationFutures.add(translateItem(item, l));
+    }
 
+    await Future.wait(translationFutures);
   }
+
+  Future<void> translateItem(Map<String, dynamic> item, String language) async {
+    try {
+      TranslationResponse translated = await translation(
+        item["description"],
+        item["location"],
+        language,
+      );
+
+      item["description"] = translated.key2;
+
+      item["location"] = translated.key3;
+
+      print(item["description"]);
+
+    } catch (e) {
+      print(e.toString());
+      // Handle translation error, if needed
+    }
+  }}
+
+class TranslationResponse {
+  final String key2;
+  String? key3;
+
+  TranslationResponse({ required this.key2,required this.key3});
+}
+
 
 // emit(UserError(Error.toString()));
 // print(e.toString());
 
-}
